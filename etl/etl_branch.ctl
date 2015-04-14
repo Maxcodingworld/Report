@@ -6,8 +6,7 @@ end
   :type => :database,
   :target => :memp_development,
   :table => "branches",
-  :select => "id  , name , category  ",
-  :conditions => "rownum <= 1000"
+  :select => "id  , name , category  "
   },
   [
     :name,

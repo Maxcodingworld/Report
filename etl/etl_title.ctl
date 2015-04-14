@@ -6,8 +6,7 @@ end
   :type => :database,
   :target => :webstore_development,
   :table => "titles",
-  :select => "id ,title,author_id,category_id",
-  :conditions => "rownum <= 1000"
+  :select => "id ,title,author_id,category_id"
   },
   [
     :title,

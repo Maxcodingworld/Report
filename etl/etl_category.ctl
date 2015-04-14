@@ -6,8 +6,7 @@ end
   :type => :database,
   :target => :webstore_development,
   :table => "categories",
-  :select => "id ,name,category_type",
-  :conditions => "rownum <= 1000"
+  :select => "id ,name,category_type"
   },
   [
     :name,

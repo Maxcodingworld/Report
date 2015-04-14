@@ -6,8 +6,7 @@ end
   :type => :database,
   :target => :memp_development,
   :table => "member_profiles",
-  :select => "id  , email_id , first_name, last_name",
-  :conditions => "rownum <= 1000"
+  :select => "id  , email_id , first_name, last_name"
   },
   [
     :email_id,

@@ -6,8 +6,7 @@ end
   :type => :database,
   :target => :memp_development,
   :table => "member_plans",
-  :select => "id  , branch_id , plan_id ,member_profile_id",
-  :conditions => "rownum <= 1000"
+  :select => "id  , branch_id , plan_id ,member_profile_id"
   },
   [
     :id,
