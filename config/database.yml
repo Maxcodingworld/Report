@@ -1,0 +1,49 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+opac_connection:
+  adapter: oracle_enhanced
+  database: XE  
+  username: opac
+  password: opac
+
+memp_connection:
+  adapter: oracle_enhanced
+  database: XE  
+  username: memp
+  password: memp
+
+development:
+  adapter: oracle_enhanced
+  database: XE
+  username: bboard
+  password: bboard
+
+etl_execution:
+  adapter: oracle_enhanced
+  database: XE
+  username: bboard
+  password: bboard
+
+
+memp_development:
+  adapter: oracle_enhanced
+  database: XE  
+  username: memp
+  password: memp
+
+opac_development:
+  adapter: oracle_enhanced
+  database: XE  
+  username: opac
+  password: opac
+
+
+webstore_development:
+  adapter: oracle_enhanced
+  database: XE  
+  username: webstore
+  password: webstore
+

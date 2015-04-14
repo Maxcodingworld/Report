@@ -1,0 +1,17 @@
+<h3>Orders Report</h3>
+
+
+
+<%= form_tag(result_temp2ibtrves_path, :method => "post") do %>
+  Fromdate:
+<%= date_select("dates","fromdate", start_year: 1995)%>
+</br></br>Todate:
+<%= date_select("dates","todate", start_year: 1995)%>
+</br></br>
+<%= submit_tag "Search" %>
+<% end %>
+
+
+
+
+

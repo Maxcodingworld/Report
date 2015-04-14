@@ -1,0 +1,39 @@
+<h3>Book History</h3>
+<br/>
+<br/>
+
+
+<% if @a && !@a.empty? %>
+  <table class="table table-condensed">
+    <tr>
+      <th>Member Name</th>
+      <th>Member Plan Id</th>
+      <th>Title :</th>
+    </tr>
+    <tr>
+    	<td>
+    		<%= EtlMemberProfileInfo.find_by_id(@a.first.member_profile_id).name %>
+        <%#= MemberPlan.find(@a.first.member_plan_id).first_name%>
+    	</td>
+    	<td>
+    		<%= @a.first.member_plan_id%>
+    	</td>
+    	     <td>
+    		<% @a.each do |mp| %>
+            
+            <%= EtlTitle.find_by_id(mp.title_id).title %>
+          		
+          	   <br>
+          	
+    		<% end %>
+    		</td>
+    	<br>
+     </tr>
+  </table>
+  <div class="clear"></div>
+  <!-- %center= will_paginate(@rep, :params => {:controller => 'accounts', :action => "rep", :format => :js}, :param_name => "rewards_page")
+  -->
+<% else %>
+  No returns till date
+<% end %>
+</div>

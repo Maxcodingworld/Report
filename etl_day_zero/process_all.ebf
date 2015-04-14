@@ -1,0 +1,31 @@
+
+
+run 'prepare_db.ctl'
+
+class DayZero < ActiveRecord::Base
+establish_connection "etl_execution"
+self.table_name = "etl_ibtr_versions"
+end
+
+class IbtrVersions < ActiveRecord::Base
+establish_connection "opac_connection"
+self.table_name = "ibtr_versions"
+end
+
+
+
+a= IbtrVersions.connection.execute("select max(id) from ibtr_versions").fetch[0].to_i
+IbtrVersions.connection.close
+
+while(true) do
+b= DayZero.connection.execute("select max(id) from etl_ibtr_versions").fetch[0].to_i
+
+		if a > b
+		system("etl etl_day_zero/'day_zero.ctl'")
+		else
+		break
+		end
+ 
+DayZero.connection.close
+end
+

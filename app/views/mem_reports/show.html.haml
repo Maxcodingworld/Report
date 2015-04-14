@@ -1,0 +1,27 @@
+%h3 Member Details
+%br
+%br
+- if @rep && !@rep.empty?
+  %table.table.table-condensed
+    %tr
+      %th Member Name
+      %th Plan
+      %th Books
+    - @rep.last(3).each do |mp|
+      %tr
+        %td= mp.name
+        %td= mp.plan.name
+        %td= @ods.find(@rep.id).values
+            %br
+            %hr
+  .clear
+  / %center= will_paginate(@rep, :params => {:controller => 'accounts', :action => "rep", :format => :js}, :param_name => "rewards_page")
+- else
+  No returns till date
+
+
+
+/         %td
+/           - mp.returns.each do |ret|
+/             = ret.book.title.title.truncate(25)
+/ <h3>"hi"<h3>

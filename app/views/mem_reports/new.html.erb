@@ -1,0 +1,64 @@
+<h3>Member Book Report</h3>
+
+<%= form_for @mbook_report  do |f| %>
+     
+     <div class="field">
+     <span class="span-3"><%= f.label :branch_id %></span>
+      <%= f.collection_select :branch_id, EtlBranch.where("category=? or category=? ",'S','P').order(:id), :id, :name,:include_blank => 'All Branches' %>
+    </div>
+    
+     <div class="field">
+        <span class="span-3"><%= f.label :plan_id %></span>
+          <%= f.collection_select :plan_id, EtlPlan.order(:name), :id,  :name, :include_blank => 'All Plans' %>
+     </div>
+  
+  
+   <div class="span-6" id = "limitshow">
+    <span class="span-3"><%= f.label :day_limit %></span>
+     <div>
+     <%= f.select "day_limit",
+      options_for_select([['All',"all"],['last one week',"oneweek"],['last one month',"onemonth"],['Custom',"custom"]]) %>
+    </div>
+   </div>
+    <br/>
+    <div id="fromtodate" hidden { display: none;} >
+    <div class="span-12">
+      <div class = "span-3" style = font-weight:bold; >From </div>
+      <%= f.date_select :from_date %>
+    </div>
+    <div class="span-12">
+      <div class = "span-3" style = font-weight:bold; >To</div>
+      <%= f.date_select :to_date %>
+    </div>
+    </div>
+  </div>
+
+
+
+
+   
+  <br/>
+  <br/>
+
+  <div class="span-12">
+    <div class="span-3" style = font-weight:bold; > Minbook </div>
+    <%= f.number_field :from_book , :style => "width:50px"%>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div class="span-12">
+    <div class="span-3" style = font-weight:bold; > Maxbook </div>
+    <%= f.number_field(:to_book, :style => "width:50px")  %>
+  </div>
+<br/>
+
+
+  <div class ="span-24">
+    <br/>
+    <br/>
+    <div class="actions"><%= f.submit "Search" %></div>
+  </div>
+<% end %>

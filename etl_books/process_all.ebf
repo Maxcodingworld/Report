@@ -1,0 +1,27 @@
+
+class EtlBook < ActiveRecord::Base
+establish_connection "etl_execution"
+self.table_name = "etl_books"
+end
+
+class Book < ActiveRecord::Base
+establish_connection "opac_connection"
+self.table_name = "books"
+end
+
+
+
+a= Book.connection.execute("select max(id) from books").fetch[0].to_i
+Book.connection.close
+
+while(true) do
+b= EtlBook.connection.execute("select max(id) from etl_books").fetch[0].to_i
+
+		if a > b
+		system("etl etl_books/'etl_book.ctl'")
+		else
+		break
+		end
+ 
+EtlBook.connection.close
+end
