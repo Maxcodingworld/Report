@@ -2,9 +2,9 @@ Bboard::Application.routes.draw do
 
 
 
-root :to => 'temp2ibtrves#choose'
+root :to => 'order_reports#choose'
 
-resources :temp2ibtrves do
+resources :order_reports do
     collection do
       get 'filter'
       post 'result'
