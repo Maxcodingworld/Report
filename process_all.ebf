@@ -1,0 +1,4 @@
+run 'etl_day_zero/process_all.ebf'
+run 'etl_books/process_all.ebf'
+run 'etl/process_all.ebf'
+run 'etl_final/process_all.ebf'
