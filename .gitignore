@@ -13,7 +13,5 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
-/Gemfile
-/Gemfile.lock
 /.rvmrc
-
+/config/*.yml
