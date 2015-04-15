@@ -1,12 +1,26 @@
 class EtlTitle < ActiveRecord::Base
+  establish_connection "etl_execution"
+  self.table_name =  'etl_titles'
 end
+
+
+class EtlInfo < ActiveRecord::Base
+  establish_connection "etl_execution"
+  self.table_name =  'etl_infos'
+end
+
+  a = 0
+
+  if EtlInfo.find_by_table_name("titles")
+    a = EtlInfo.find_by_table_name("titles").last_etl_id
+  end
 
  source :input,
   {
   :type => :database,
   :target => :webstore_development,
-  :table => "titles",
-  :select => "id ,title,author_id,category_id"
+  :query => "select * from (select id ,title,author_id,category_id from titles order by id) where id > #{a}"
+
   },
   [
     :title,
@@ -36,3 +50,16 @@ destination :out, {
   :primarykey => [:id],
   :order =>[:id,:title,:author_id,:category_id]
 } 
+
+post_process{
+   
+  a = EtlTitle.connection.execute("SELECT MAX(ID) FROM etl_titles").fetch[0].to_i
+  if !EtlInfo.find_by_id(4)
+
+    EtlInfo.connection.execute("INSERT into etl_infos(id,table_name,last_etl_id,created_at,updated_at) values (4,'titles',#{a},sysdate,sysdate )")
+  else 
+    EtlInfo.connection.execute("UPDATE etl_infos SET id=4,table_name='titles',last_etl_id=#{a},created_at=sysdate,updated_at=sysdate
+    where id = 4 ")
+  end
+
+}

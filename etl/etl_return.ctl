@@ -25,9 +25,7 @@ end
   :type => :database,
   :target => :memp_development,
   :table => "returns",
-  :select => "id ,member_plan_id as m_p_i ,issue_date ,return_date ,branch_id ,legacy_title_id as t_id,created_at,updated_at,rent_duration",
-  :conditions => "id > #{a} and rownum <= 100",
-  :order => "returns.id"
+  :query => "select * from (select id ,member_plan_id as m_p_i ,issue_date ,return_date ,branch_id ,legacy_title_id as t_id,created_at,updated_at,rent_duration from returns order by id) where id > #{a} and rownum <= 10 "
   },
   [
     :m_p_i,
@@ -89,7 +87,7 @@ destination :out, {
 
 post_process{
   a = EtlReturn.connection.execute("SELECT MAX(ID) FROM ETL_RETURNS").fetch[0].to_i
-  if EtlInfo.count == 0
+  if !EtlInfo.find_by_id(1)
     EtlInfo.connection.execute("INSERT into etl_infos(id,table_name,last_etl_id,created_at,updated_at) values (1,'returns',#{a},sysdate,sysdate )")
   else 
     EtlInfo.connection.execute("UPDATE etl_infos SET id=1,table_name='returns',last_etl_id=#{a},created_at=sysdate,updated_at=sysdate

@@ -5,10 +5,10 @@ end
 
   d= 0
 
-  if !EtlCirculation.first
-    d = 0
-  else
+  if EtlCirculation.first
     d = EtlCirculation.connection.execute("SELECT MAX(ID) FROM ETL_CIRCULATIONS").fetch[0].to_i
+  else
+    d = 0
   end
  
  source :input,
