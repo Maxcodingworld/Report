@@ -8,7 +8,7 @@ self.table_name = "etl_ibtr_versions"
 end
 
 class IbtrVersions < ActiveRecord::Base
-establish_connection "opac_connection"
+establish_connection "opac_development"
 self.table_name = "ibtr_versions"
 end
 

@@ -5,7 +5,7 @@ self.table_name = "etl_books"
 end
 
 class Book < ActiveRecord::Base
-establish_connection "opac_connection"
+establish_connection "opac_development"
 self.table_name = "books"
 end
 

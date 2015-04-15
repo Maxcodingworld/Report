@@ -3,18 +3,6 @@
 #
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
-opac_connection:
-  adapter: oracle_enhanced
-  database: XE  
-  username: opac
-  password: opac
-
-memp_connection:
-  adapter: oracle_enhanced
-  database: XE  
-  username: memp
-  password: memp
-
 development:
   adapter: oracle_enhanced
   database: XE

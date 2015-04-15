@@ -12,11 +12,9 @@ EtlBook.connection.close
 
 source :in, {
   :type => :database,
-  :target => :opac_connection,
+  :target => :opac_development,
   :table => "books",
-  :select => "id,state",
-  :conditions => "books.id > #{max_id}",
-  :order => "id"
+  :query => "select * from (select id,state from books order by id) where id > #{max_id}"
   },
   [
     :state
