@@ -14,16 +14,16 @@
     <tr>
       <td>
         <% if @mb.branch_id.nil?%>
-        <%= "All"%>
+           <%= "All"%>
         <% else %>
-        <%=  EtlBranch.where(:id => @mb.branch_id).first.name%>
+           <%=  EtlBranch.where(:id => @mb.branch_id).first.name%>
         <%end%>
       </td>
       <td>
         <% if @mb.plan_id.nil?%>
-        <%= "All"%>
+          <%= "All"%>
         <% else %>
-        <%=  EtlPlan.where(:id => @mb.plan_id).first.name%>
+          <%=  EtlPlan.where(:id => @mb.plan_id).first.name%>
         <%end%>
       </td>
       <td>
@@ -37,9 +37,9 @@
           <%= "All"%>
         <% elsif  @mb.day_limit == 'oneweek'%>
           <%=  "Last week"%>
-         <% elsif  @mb.day_limit == 'onemonth'%>
+        <% elsif  @mb.day_limit == 'onemonth'%>
           <%=  "Last month"%>
-         <% else %>
+        <% else %>
           <%="From date: #{@mb.from_date.to_date}"%>
           <%="To date: #{@mb.to_date.to_date}"%>
         <%end%>
@@ -67,10 +67,9 @@
         <td>
           <%= EtlPlan.find_by_id(mp.p_id).name %>
         </td>
-       <td>
-        <%=  %>
-        <%=link_to mp.tot , bookdetail_mem_reports_path(id: mp.member_plan_id ,filter_id: @mb.id) %>
-      </td>
+        <td>
+          <%=link_to mp.tot , bookdetail_mem_reports_path(id: mp.member_plan_id ,filter_id: @mb.id) %>
+        </td>
         <td>
           <%=  EtlBranch.find_by_id(mp.b_id).name%>
         </td>
