@@ -1,8 +1,5 @@
 run 'prepare_db.ctl'
 run 'ibtr_v.ctl'
-
-
-
 run 'etl_title.ctl'
 run 'etl_return.ctl'
 run 'etl_plan.ctl'
