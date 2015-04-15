@@ -1,21 +1,24 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.16'
-gem 'ETL'
+
+if RUBY_VERSION =~ /1.9/
+  Encoding.default_external = Encoding::UTF_8
+  Encoding.default_internal = Encoding::UTF_8
+end
+
+gem "capistrano","2.14.2"
+
+
 gem 'activerecord-oracle_enhanced-adapter','1.4.1'
 gem "ruby-oci8"
 gem 'devise'
-
-group :development do
-	gem "capistrano","2.14.2"
-  	gem "capistrano-ext"
-	gem 'will_paginate'
-end
-gem 'prototype-rails'
-gem 'activewarehouse-etl'
-group :production do
-  # gem 'pg', '0.12.2'
-end
+gem 'activewarehouse-etl', '1.0.0'
+gem 'mysql2'
+gem 'awesome_print'
+gem 'utf8'
+gem 'utf8-cleaner'
+gem 'will_paginate'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -25,4 +28,4 @@ group :assets do
   gem 'uglifier', '1.2.3'
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', '2.0.2'
