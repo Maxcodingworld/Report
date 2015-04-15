@@ -26,7 +26,7 @@ source :in, {
 transform(:book_state) do |n,v,r|
 
   if r[:book_id].to_i == 0
-    0
+      0
   end  
 
   a = BbTable.find_by_id(r[:book_id])
@@ -34,7 +34,7 @@ transform(:book_state) do |n,v,r|
       if a.state == 'M'
           1
       else
-      0
+          0
       end
   else 
       0

@@ -5,7 +5,7 @@ end
 
 
 class IbtrV < ActiveRecord::Base
-establish_connection "opac_connection"
+establish_connection "opac_development"
 self.table_name = "member_orders"
 end
 
@@ -19,12 +19,10 @@ DayZero.connection.close
 
 source :in, {
   :type => :database,
-  :target => :opac_connection,
+  :target => :opac_development,
   :table => "ibtr_versions",
   :order => "id",
-  :select => "max(id) as id,ibtr_id,state,min(created_by) as created_by,min(created_at) as created_at,max(updated_at) as updated_at",
-  :group => "ibtr_id,state",
-  :conditions => "id > #{max_id} and rownum < 1000"
+  :query => "select * from (select max(id) as id,ibtr_id,state,min(created_by) as created_by,min(created_at) as created_at,max(updated_at) as updated_at from ibtr_versions group by ibtr_id,state order by id) where id > #{max_id} and rownum < 1000"
 
   },
   [
