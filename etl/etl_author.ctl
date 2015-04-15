@@ -50,5 +50,4 @@ post_process{
     EtlInfo.connection.execute("UPDATE etl_infos SET id=6,table_name='authors',last_etl_id=#{a},created_at=sysdate,updated_at=sysdate
     where id = 6 ")
   end
-
 }
