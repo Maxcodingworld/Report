@@ -14,8 +14,6 @@
 //= require jquery_ujs
 //= require_tree .
 $(document).ready(function() {
-	alert ("helo");
-
 	$('#mem_report_day_limit').change(function(){
 	    var limit_id = $(this).val();
 
