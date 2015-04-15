@@ -13,7 +13,6 @@ gem 'execjs' ,'1.4.0'
 gem 'ruby-oci8','2.1.7'
 gem "capistrano","2.14.2"
 gem 'activerecord-oracle_enhanced-adapter','1.4.1'
-gem "ruby-oci8"
 gem 'activewarehouse-etl', '1.0.0'
 gem 'will_paginate'
 
