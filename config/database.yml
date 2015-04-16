@@ -9,30 +9,35 @@ development:
   username: bboard
   password: bboard
 
+production:
+  adapter: oracle_enhanced
+  database: staging
+  username: bboard
+  password: bboard
+  cursor_sharing: similar
+
+
 memp_production:
   adapter: oracle_enhanced
-  database: XE  
+  database: staging
   username: memp
   password: memp
+  cursor_sharing: similar
 
 opac_production:
   adapter: oracle_enhanced
-  database: XE  
+  database: staging 
   username: opac
   password: opac
+  cursor_sharing: similar
 
 
 webstore_production:
   adapter: oracle_enhanced
-  database: XE  
+  database: staging
   username: webstore
   password: webstore
-
-production:
-  adapter: oracle_enhanced
-  database: XE  
-  username: bboard
-  password: bboard
+  cursor_sharing: similar
 
 
 

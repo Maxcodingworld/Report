@@ -12,7 +12,7 @@ gem 'highline','1.6.18'
 gem 'execjs' ,'1.4.0'
 gem 'ruby-oci8','2.1.7'
 gem "capistrano","2.14.2"
-gem 'activerecord-oracle_enhanced-adapter','1.4.1'
+gem 'activerecord-oracle_enhanced-adapter','1.4.2'
 gem 'activewarehouse-etl', '1.0.0'
 gem 'will_paginate'
 
