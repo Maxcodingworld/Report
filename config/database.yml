@@ -9,29 +9,31 @@ development:
   username: bboard
   password: bboard
 
-etl_execution:
-  adapter: oracle_enhanced
-  database: XE
-  username: bboard
-  password: bboard
-
-
-memp_development:
+memp_production:
   adapter: oracle_enhanced
   database: XE  
   username: memp
   password: memp
 
-opac_development:
+opac_production:
   adapter: oracle_enhanced
   database: XE  
   username: opac
   password: opac
 
 
-webstore_development:
+webstore_production:
   adapter: oracle_enhanced
   database: XE  
   username: webstore
   password: webstore
+
+production:
+  adapter: oracle_enhanced
+  database: XE  
+  username: bboard
+  password: bboard
+
+
+
 

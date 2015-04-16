@@ -1,12 +1,12 @@
 class IbtrV < ActiveRecord::Base
-establish_connection "opac_development"
+establish_connection "opac_production"
 self.table_name = "member_orders"
 end
 
 
 source :in, {
   :type => :database,
-  :target => :opac_development,
+  :target => :opac_production,
   :table => "ibtr_versions",
   :select => "min(id) as id,ibtr_id,state,min(created_by) as created_by,min(created_at) as created_at,max(updated_at) as updated_at",
   :group => "ibtr_id,state",
@@ -70,7 +70,7 @@ end
 
 destination :out, {
   :type => :database,
-  :target => :etl_execution,
+  :target => :production,
   :table => "etl_ibtr_versions"
 },
 {

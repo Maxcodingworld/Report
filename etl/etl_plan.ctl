@@ -1,10 +1,10 @@
 class EtlPlan < ActiveRecord::Base
-establish_connection "etl_execution"
+establish_connection "production"
   self.table_name =  'etl_plans'
 end
 
 class EtlInfo < ActiveRecord::Base
-  establish_connection "etl_execution"
+  establish_connection "production"
   self.table_name =  'etl_infos'
 end   
  
@@ -33,7 +33,7 @@ end
 
 destination :out, {
   :type => :database,
-  :target => :etl_execution,
+  :target => :production,
   :table => "etl_plans"
 },
 {

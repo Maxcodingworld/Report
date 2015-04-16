@@ -1,11 +1,11 @@
 class DayZero < ActiveRecord::Base
-establish_connection "etl_execution"
+establish_connection "production"
 self.table_name = "etl_ibtr_versions"
 end
 
 
 class IbtrV < ActiveRecord::Base
-establish_connection "opac_development"
+establish_connection "opac_production"
 self.table_name = "member_orders"
 end
 
@@ -19,7 +19,7 @@ DayZero.connection.close
 
 source :in, {
   :type => :database,
-  :target => :opac_development,
+  :target => :opac_production,
   :table => "ibtr_versions",
   :order => "id",
   :query => "select * from (select max(id) as id,ibtr_id,state,min(created_by) as created_by,min(created_at) as created_at,max(updated_at) as updated_at from ibtr_versions group by ibtr_id,state order by id) where id > #{max_id} and rownum < 1000"
@@ -83,7 +83,7 @@ end
 
 destination :out, {
   :type => :database,
-  :target => :etl_execution,
+  :target => :production,
   :table => "etl_ibtr_versions"
 },
 {

@@ -42,24 +42,10 @@ aws_staging :ec2_staging do
   set :location, "107.23.108.186"
 end
 
-after "deploy:create_symlink", "deploy:update_crontab"
-after "deploy:create_symlink", "deploy:delayed_job_restart"
 
 namespace :deploy do
   after "deploy:update_code" do
     run "cp #{deploy_to}/shared/database.yml #{release_path}/config/database.yml"
-  end
-
-  desc "Update the crontab file"
-  task :update_crontab, :roles => :db do
-    run "cd #{release_path} && bundle exec whenever --update-crontab #{application}"
-  end
-
-  desc "Restart the delayed_job process"
-  task :delayed_job_restart, :roles => :app do
-    # if delayed_job_flag
-    #   run "cd #{current_path} && RAILS_ENV=production script/delayed_job restart"
-    # end
   end
 
   task :start do ; end

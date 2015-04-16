@@ -3,12 +3,12 @@
 run 'prepare_db.ctl'
 
 class DayZero < ActiveRecord::Base
-establish_connection "etl_execution"
+establish_connection "production"
 self.table_name = "etl_ibtr_versions"
 end
 
 class IbtrVersions < ActiveRecord::Base
-establish_connection "opac_development"
+establish_connection "opac_production"
 self.table_name = "ibtr_versions"
 end
 

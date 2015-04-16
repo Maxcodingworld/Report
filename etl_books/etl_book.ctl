@@ -1,5 +1,5 @@
 class EtlBook < ActiveRecord::Base
-establish_connection "etl_execution"
+establish_connection "production"
 self.table_name = "etl_books"
 end
 
@@ -12,7 +12,7 @@ EtlBook.connection.close
 
 source :in, {
   :type => :database,
-  :target => :opac_development,
+  :target => :opac_production,
   :table => "books",
   :query => "select * from (select id,state from books order by id) where id > #{max_id}"
   },
@@ -23,7 +23,7 @@ source :in, {
 
 destination :out, {
   :type => :database,
-  :target => :etl_execution,
+  :target => :production,
   :table => "etl_books"
 },
 {

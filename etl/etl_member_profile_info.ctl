@@ -1,11 +1,11 @@
 class EtlMemberProfileInfo < ActiveRecord::Base
-  establish_connection "etl_execution"
+  establish_connection "production"
   self.table_name =  'etl_member_profile_infos'
 end
 
 
 class EtlInfo < ActiveRecord::Base
-  establish_connection "etl_execution"
+  establish_connection "production"
   self.table_name =  'etl_infos'
 end   
  
@@ -18,7 +18,7 @@ end
  source :input,
   {
   :type => :database,
-  :target => :memp_development,
+  :target => :memp_production,
   :table => "member_profiles",
   :query => "select * from (select id , email_id , first_name, last_name from member_profiles order by id) where id > #{a}"
   },
@@ -46,7 +46,7 @@ end
 
 destination :out, {
   :type => :database,
-  :target => :etl_execution,
+  :target => :production,
   :table => "etl_member_profile_infos"
 },
 {

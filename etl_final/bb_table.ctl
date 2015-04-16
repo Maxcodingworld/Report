@@ -1,12 +1,12 @@
 class BbTable < ActiveRecord::Base
-establish_connection "etl_execution"
+establish_connection "production"
 self.table_name = "etl_books"
 end
 
 
 source :in, {
   :type => :database,
-  :target => :etl_execution,
+  :target => :production,
   :table => "etl_ibtr_versions",
   :conditions => "flag_destination != 'NA'",
   :new_records_only => "created_at_date" 
@@ -55,7 +55,7 @@ end
 
 destination :out, {
   :type => :database,
-  :target => :etl_execution,
+  :target => :production,
   :table => "temp2ibtrves"
 },
 {
