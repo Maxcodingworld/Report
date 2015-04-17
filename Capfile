@@ -1,3 +1,5 @@
+load 'deploy'
+load 'config/deploy'
 require 'capistrano/setup'
 
 # Include default deployment tasks
