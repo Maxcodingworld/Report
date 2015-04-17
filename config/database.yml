@@ -5,7 +5,7 @@
 #   gem 'sqlite3'
 development:
   adapter: oracle_enhanced
-  database: XE
+  database: staging
   username: bboard
   password: bboard
 
@@ -14,7 +14,6 @@ production:
   database: staging
   username: bboard
   password: bboard
-  cursor_sharing: similar
 
 
 memp_production:
@@ -22,14 +21,12 @@ memp_production:
   database: staging
   username: memp
   password: memp
-  cursor_sharing: similar
 
 opac_production:
   adapter: oracle_enhanced
   database: staging 
   username: opac
   password: opac
-  cursor_sharing: similar
 
 
 webstore_production:
@@ -37,7 +34,6 @@ webstore_production:
   database: staging
   username: webstore
   password: webstore
-  cursor_sharing: similar
 
 
 

@@ -1,6 +1,7 @@
 require 'bundler/capistrano'
 # set :whenever_command, "bundle exec whenever"
 # require 'whenever/capistrano'
+set :rvm_ruby_version, '1.9.3-p551'
 set :ssh_options, { :forward_agent => true }
 set :application, "repo_layer"
 set :repository,  "git@github.com:Maxcodingworld/Report.git"

@@ -7,9 +7,7 @@ end
 
 gem 'rails', '3.2.12'
 gem 'rake','10.3.2'
-gem 'i18n','0.6.4'
-gem 'highline','1.6.18'
-gem 'execjs' ,'1.4.0'
+
 gem 'ruby-oci8','2.1.7'
 gem "capistrano","2.14.2"
 gem 'activerecord-oracle_enhanced-adapter','1.4.2'
