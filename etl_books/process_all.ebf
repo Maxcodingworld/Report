@@ -1,11 +1,11 @@
 
 class EtlBook < ActiveRecord::Base
-establish_connection "etl_execution"
+establish_connection "production"
 self.table_name = "etl_books"
 end
 
 class Book < ActiveRecord::Base
-establish_connection "opac_development"
+establish_connection "opac_connection"
 self.table_name = "books"
 end
 
