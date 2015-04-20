@@ -36,14 +36,14 @@ def aws_staging name
 end
 
 aws_staging :ec2_staging do
-  set :branch, "master"
+  set :branch, "myrepo"
   set :application, "repo_layer"
   set :deploy_to, "/rails/apps/repo_layer"
   set :location, "107.23.108.186"
 end
 
-after "deploy:create_symlink", "deploy:update_crontab"
-after "deploy:create_symlink", "deploy:delayed_job_restart"
+# after "deploy:create_symlink", "deploy:update_crontab"
+# after "deploy:create_symlink", "deploy:delayed_job_restart"
 
 namespace :deploy do
   after "deploy:update_code" do
