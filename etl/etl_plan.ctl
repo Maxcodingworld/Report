@@ -1,6 +1,6 @@
 class EtlPlan < ActiveRecord::Base
 establish_connection "production"
-  self.table_name =  'etl_plans'
+ self.table_name =  'etl_plans'
 end
 
 class EtlInfo < ActiveRecord::Base
@@ -17,7 +17,7 @@ end
  source :input,
   {
   :type => :database,
-  :target => :memp_development,
+  :target => :memp_production,
   :table => "plans",
   :query => "select * from (select id , name from plans order by id) where id > #{a}"
   },
