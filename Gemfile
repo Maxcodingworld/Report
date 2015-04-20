@@ -16,7 +16,9 @@ gem 'will_paginate'
 gem 'capistrano',  '~> 3.0.0'
 gem "capistrano-ext"
 gem 'capistrano-rails'
-gem 'capistrano-rvm', github: 'capistrano/rvm'
+gem 'whenever', :require => false
+# gem 'capistrano-bundler'
+# gem 'capistrano-rvm', github: 'capistrano/rvm'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
