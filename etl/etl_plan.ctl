@@ -1,12 +1,16 @@
 class EtlPlan < ActiveRecord::Base
-establish_connection "production"
+ establish_connection "production"
  self.table_name =  'etl_plans'
 end
+
+
+
 
 class EtlInfo < ActiveRecord::Base
   establish_connection "production"
   self.table_name =  'etl_infos'
 end   
+
  
  a = 0
 
@@ -28,7 +32,7 @@ end
 
 
 transform(:name) do |n,v,r|
-  r[:name]
+  p r[:name]
 end
 
 destination :out, {

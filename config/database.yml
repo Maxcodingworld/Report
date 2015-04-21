@@ -15,12 +15,12 @@ production:
   username: bboard
   password: bboard
 
-
 memp_production:
   adapter: oracle_enhanced
   database: staging
   username: memp
   password: memp
+
 
 opac_production:
   adapter: oracle_enhanced
@@ -34,7 +34,3 @@ webstore_production:
   database: staging
   username: webstore
   password: webstore
-
-
-
-
