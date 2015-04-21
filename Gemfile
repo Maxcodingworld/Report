@@ -13,12 +13,31 @@ gem 'activerecord-oracle_enhanced-adapter','1.4.2'
 gem 'activewarehouse-etl', '1.0.0'
 gem 'will_paginate'
 
-gem 'capistrano',  '~> 3.0.0'
-gem "capistrano-ext"
-gem 'capistrano-rails'
-gem 'whenever', :require => false
-# gem 'capistrano-bundler'
-# gem 'capistrano-rvm', github: 'capistrano/rvm'
+# group :development do
+#   gem 'capistrano',  '~> 3.0.0'
+# 	gem "capistrano-ext"
+# 	gem 'capistrano-rails'
+# 	gem 'whenever', :require => false
+# 	gem 'capistrano-bundler'
+# 	gem 'capistrano-rvm', github: 'capistrano/rvm'
+# 	gem 'capistrano-rbenv'
+# end
+
+
+gem 'capistrano', '~> 3.1.0'
+
+# rails specific capistrano funcitons
+gem 'capistrano-rails', '~> 1.1.0'
+
+# integrate bundler with capistrano
+gem 'capistrano-bundler'
+
+# if you are using RBENV
+gem 'capistrano-rbenv', "~> 2.0"
+
+
+
+
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
