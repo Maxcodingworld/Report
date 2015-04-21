@@ -1,5 +1,5 @@
 set :application, 'repo_layer'
-set :deploy_user, 'Maxcodingworld'
+set :deploy_user, 'rails'
 
 # setup repo details
 set :scm, :git
