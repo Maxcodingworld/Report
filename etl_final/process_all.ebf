@@ -1,3 +1,2 @@
-run 'prepare_db.ctl'
 run 'bb_table.ctl'
 

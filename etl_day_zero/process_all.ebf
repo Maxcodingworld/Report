@@ -1,7 +1,3 @@
-
-
-run 'prepare_db.ctl'
-
 class DayZero < ActiveRecord::Base
 establish_connection "production"
 self.table_name = "etl_ibtr_versions"
