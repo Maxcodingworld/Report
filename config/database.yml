@@ -5,7 +5,7 @@
 #   gem 'sqlite3'
 development:
   adapter: oracle_enhanced
-  database: staging
+  database: XE
   username: bboard
   password: bboard
 
