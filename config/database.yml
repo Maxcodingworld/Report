@@ -5,32 +5,38 @@
 #   gem 'sqlite3'
 development:
   adapter: oracle_enhanced
-  database: staging
-  username: bboard
-  password: bboard
+  database: XE
+  username: memp_etl
+  password: memp_etl
 
 production:
   adapter: oracle_enhanced
-  database: staging
-  username: bboard
-  password: bboard
+  database: XE
+  username: memp_etl
+  password: memp_etl
 
-memp_production:
+etl_execution:
   adapter: oracle_enhanced
-  database: staging
+  database: XE
+  username: memp_etl
+  password: memp_etl
+
+memp_development:
+  adapter: oracle_enhanced
+  database: XE
   username: memp
   password: memp
 
 
-opac_production:
+opac_development:
   adapter: oracle_enhanced
-  database: staging 
+  database: XE 
   username: opac
   password: opac
 
 
-webstore_production:
+webstore_development:
   adapter: oracle_enhanced
-  database: staging
+  database: XE
   username: webstore
   password: webstore

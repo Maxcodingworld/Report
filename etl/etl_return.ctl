@@ -1,15 +1,15 @@
-class EtlReturn < ActiveRecord::Base
-establish_connection "production"
+etl_execution EtlReturn < ActiveRecord::Base
+establish_connection "etl_execution"
   self.table_name =  'etl_returns'
 end
 
 class Return < ActiveRecord::Base
-  establish_connection "memp_production"
+  establish_connection "memp_development"
   self.table_name =  'returns'
 end
 
 class EtlInfo < ActiveRecord::Base
-  establish_connection "production"
+  establish_connection "etl_execution"
   self.table_name =  'etl_infos'
 end   
  
@@ -77,7 +77,7 @@ end
 
 destination :out, {
   :type => :database,
-  :target => :production,
+  :target => :etl_execution,
   :table => "etl_returns"
 },
 {

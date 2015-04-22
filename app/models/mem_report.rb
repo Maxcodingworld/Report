@@ -24,7 +24,7 @@ class MemReport < ActiveRecord::Base
 		   	end
 		   	if day_limit == "onemonth"
 		    	m_cdn[0] << " issue_date >= ?"
-		    	m_cdn << Time.zone.today-1.month
+		    	m_cdn << Time.zone.today-6.year
 		   	end
 		  select = 'member_plan_id, min(branch_id) as b_id, count(*) as tot , min(plan_id) as p_id , min(member_profile_id) as m_p_id'	
 		  EtlCirculation.select('member_plan_id, min(branch_id) as b_id, count(*) as tot , min(plan_id) as p_id , min(member_profile_id) as m_p_id').where(m_cdn).group(:member_plan_id).having("count(1) >= ? and count(1) <= ? ", from_book,to_book) 		      

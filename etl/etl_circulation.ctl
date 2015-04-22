@@ -1,5 +1,5 @@
 class EtlCirculation < ActiveRecord::Base
-  establish_connection "production"
+  establish_connection "etl_execution"
   self.table_name =  'etl_circulations'
 end
 
@@ -14,7 +14,7 @@ end
  source :input,
   {
   :type => :database,
-  :target => :production,
+  :target => :etl_execution,
   :table => "etl_returns",
   :join =>"inner join etl_titles on etl_returns.title_id = etl_titles.id inner join etl_member_plans on etl_returns.member_plan_id = etl_member_plans.id inner join etl_authors on etl_titles.author_id = etl_authors.id inner join etl_categories on etl_titles.category_id = etl_categories.id ",
   :select => "etl_returns.id as id ,member_plan_id as m_p_i ,branch_id , plan_id,member_profile_id,issue_date ,return_date ,issue_branch_id ,title_id as t_id,created_at,updated_at,rent_duration, etl_authors.name as a_name,author_id,category_type,etl_categories.name as category_name",
@@ -109,7 +109,7 @@ end
 
 destination :out, {
   :type => :database,
-  :target => :production,
+  :target => :etl_execution,
   :table => "etl_circulations"
 },
 {
