@@ -15,6 +15,12 @@ production:
   username: bboard
   password: bboard
 
+etl_execution:
+  adapter: oracle_enhanced
+  database: staging
+  username: memp
+  password: memp
+
 memp_production:
   adapter: oracle_enhanced
   database: staging
