@@ -16,6 +16,19 @@ gem 'activerecord-oracle_enhanced-adapter','1.4.2'
 gem 'activewarehouse-etl', '1.0.0'
 gem 'will_paginate'
 
+group :development, :test do
+  gem 'debugger'
+  gem 'factory_girl_rails' # Needed in dev for generating when running scaffold
+  gem 'rspec-rails'
+  gem 'rspec-http'
+  gem 'cucumber-rails', :require => false
+  gem 'capybara'
+  gem 'guard'
+  gem 'guard-cucumber'
+  gem 'database_cleaner'
+end
+
+
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
