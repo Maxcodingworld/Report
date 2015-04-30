@@ -102,64 +102,12 @@ class Admin < ActiveRecord::Base
   end
 
 #Feature 5
-  def self.pagination(fromrow,torow,stage4)
+  def self.pagination(stage4,pageno = 1 ,perpage =10)
     stage5=Class.new
-    stage5=stage4.where("rownum >= #{fromrow} and rownum <= #{torow}") 
+    stage5=stage4.paginate(:per_page => perpage , :page => pageno) 
   end  
 
-
-
-
-#populating tables
-  def self.populate(userhash)
-    reportobj = Report.new(:description => userhash["description"],:invoke_times => 0)
-    reportobj.save!
-    
-    if userhash["join"] != nil
-      userhash["join"].keys.each do |x|
-        joinobj = Jointable.new(:report_id => reportobj.id,:table1 => x ,:table2 => userhash["join"][x].first,:whichjoin => userhash["join"][x].last)           
-        joinobj.save!
-      end  
-    end
-
-    if userhash["group"] != nil
-      userhash["group"].keys.each do |x|     
-        groupobj = Grouptable.new(:report_id => reportobj.id,:table_attribute => x + "." + userhash["group"][x])           
-        groupobj.save!    
-      end
-    end
-
-    if userhash["having"] != nil
-      userhash["having"].keys.each do |x|     
-        havingobj = Havingtable.new(:report_id => reportobj.id,:table_attribute => x + "." + userhash["having"][x].first,:value => userhash["having"][x].first(3).last ,:r_operator => userhash["having"][x].first(2).last,:expo_default_flag => userhash["having"][x].last)           
-        havingobj.save!    
-      end
-    end
-
-    if userhash["order"] != nil
-      userhash["order"].keys.each do |x|     
-        orderobj = Ordertable.new(:report_id => reportobj.id,:table_attribute => x + "." + userhash["order"][x].first,:desc_asce =>userhash["order"][x].first(2).last ,:expo_default_flag => userhash["order"][x].last)
-        orderobj.save!    
-      end
-    end
-
-    if userhash["where"] != nil
-      userhash["where"].keys.each do |x|     
-        whereobj = Wheretable.new(:report_id => reportobj.id,:table_attribute => x + "." + userhash["where"][x].first,:value => userhash["where"][x].first(3).last ,:r_operator => userhash["where"][x].first(2).last,:expo_default_flag => userhash["where"][x].last)
-        whereobj.save!    
-      end
-    end      
-    
-    if userhash["select"] != nil
-      userhash["select"].keys.each do |x|     
-        selectobj = Selecttable.new(:report_id => reportobj.id,:table_attribute => x + "." + userhash["select"][x])           
-        selectobj.save!    
-      end
-    end 
-    reportobj.id
-  end
-
-# calling multiple_join method
+#calling multiple_join method
   def self.join_order_operation(reportobj)
     var =1
     joinstr = ""
@@ -207,7 +155,7 @@ class Admin < ActiveRecord::Base
     after_group_having = group_having(groupstr,havingstr,after_where)
   end
   
-  #calling select_attr method 
+#calling select_attr method 
   def self.select_operation(after_group_having,reportobj)
     selectstr = ""
     reportobj.selecttables.each do |x|
@@ -217,7 +165,7 @@ class Admin < ActiveRecord::Base
     after_select = select_attr(after_group_having,selectstr)
   end
 
-
+#calling retrive_data
   def self.retrive_data(id)
     reportobj=Report.find(id)
     if id == nil
@@ -228,5 +176,6 @@ class Admin < ActiveRecord::Base
     after_where  = where_operation(joined_table,reportobj)               # appling filters on table
     after_group_having = group_having_operations(after_where,reportobj)  # appling group by and having 
     after_select = select_operation(after_group_having,reportobj)        # appling select operation
+
   end
 end

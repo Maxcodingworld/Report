@@ -1,0 +1,49 @@
+
+#populating tables
+  def self.populate(userhash)
+    reportobj = Report.new(:description => userhash["description"],:invoke_times => 0)
+    reportobj.save!
+    
+    if userhash["join"] != nil
+      userhash["join"].keys.each do |x|
+        joinobj = Jointable.new(:report_id => reportobj.id,:table1 => x ,:table2 => userhash["join"][x].first,:whichjoin => userhash["join"][x].last)           
+        joinobj.save!
+      end  
+    end
+
+    if userhash["group"] != nil
+      userhash["group"].keys.each do |x|     
+        groupobj = Grouptable.new(:report_id => reportobj.id,:table_attribute => x + "." + userhash["group"][x])           
+        groupobj.save!    
+      end
+    end
+
+    if userhash["having"] != nil
+      userhash["having"].keys.each do |x|     
+        havingobj = Havingtable.new(:report_id => reportobj.id,:table_attribute => x + "." + userhash["having"][x].first,:value => userhash["having"][x].first(3).last ,:r_operator => userhash["having"][x].first(2).last,:expo_default_flag => userhash["having"][x].last)           
+        havingobj.save!    
+      end
+    end
+
+    if userhash["order"] != nil
+      userhash["order"].keys.each do |x|     
+        orderobj = Ordertable.new(:report_id => reportobj.id,:table_attribute => x + "." + userhash["order"][x].first,:desc_asce =>userhash["order"][x].first(2).last ,:expo_default_flag => userhash["order"][x].last)
+        orderobj.save!    
+      end
+    end
+
+    if userhash["where"] != nil
+      userhash["where"].keys.each do |x|     
+        whereobj = Wheretable.new(:report_id => reportobj.id,:table_attribute => x + "." + userhash["where"][x].first,:value => userhash["where"][x].first(3).last ,:r_operator => userhash["where"][x].first(2).last,:expo_default_flag => userhash["where"][x].last)
+        whereobj.save!    
+      end
+    end      
+    
+    if userhash["select"] != nil
+      userhash["select"].keys.each do |x|     
+        selectobj = Selecttable.new(:report_id => reportobj.id,:table_attribute => x + "." + userhash["select"][x])           
+        selectobj.save!    
+      end
+    end 
+    reportobj.id
+  end
