@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  report_id: 1
+  table1: MyString
+  table2: MyString
+  whichjoin: MyString
+
+two:
+  report_id: 1
+  table1: MyString
+  table2: MyString
+  whichjoin: MyString
