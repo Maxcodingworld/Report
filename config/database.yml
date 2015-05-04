@@ -9,6 +9,13 @@ development:
   username: bboard
   password: bboard
 
+test:
+  adapter: oracle_enhanced
+  database: XE
+  username: test_bboard
+  password: test_bboard
+
+
 production:
   adapter: oracle_enhanced
   database: staging
