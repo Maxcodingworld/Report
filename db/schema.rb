@@ -24,10 +24,6 @@ ActiveRecord::Schema.define(:version => 20150428113306) do
     t.string "name"
   end
 
-  create_table "etl_books", :force => true do |t|
-    t.string "state"
-  end
-
   create_table "etl_branches", :force => true do |t|
     t.string "name"
     t.string "category"
@@ -58,18 +54,6 @@ ActiveRecord::Schema.define(:version => 20150428113306) do
     t.integer  "member_profile_id",    :precision => 38, :scale => 0
   end
 
-  create_table "etl_ibtr_versions", :force => true do |t|
-    t.integer  "ibtr_id",          :precision => 38, :scale => 0
-    t.string   "state"
-    t.integer  "created_by",       :precision => 38, :scale => 0
-    t.integer  "created_at_int",   :precision => 38, :scale => 0
-    t.integer  "updated_at_int",   :precision => 38, :scale => 0
-    t.string   "flag_destination"
-    t.integer  "book_id",          :precision => 38, :scale => 0
-    t.datetime "created_at_date"
-    t.datetime "updated_at_date"
-  end
-
   create_table "etl_infos", :force => true do |t|
     t.string   "table_name"
     t.integer  "last_etl_id", :precision => 38, :scale => 0
@@ -86,6 +70,12 @@ ActiveRecord::Schema.define(:version => 20150428113306) do
   create_table "etl_member_profile_infos", :force => true do |t|
     t.string "email"
     t.string "name"
+  end
+
+  create_table "etl_member_profiles", :force => true do |t|
+    t.string "email"
+    t.string "name"
+    t.string "category"
   end
 
   create_table "etl_plans", :force => true do |t|
@@ -179,30 +169,6 @@ ActiveRecord::Schema.define(:version => 20150428113306) do
     t.string   "table_attribute"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
-  end
-
-  create_table "temp2ibtrves", :force => true do |t|
-    t.integer  "ibtr_id",          :precision => 38, :scale => 0
-    t.string   "state"
-    t.integer  "created_by",       :precision => 38, :scale => 0
-    t.integer  "created_at_int",   :precision => 38, :scale => 0
-    t.integer  "updated_at_int",   :precision => 38, :scale => 0
-    t.string   "flag_destination"
-    t.integer  "book_state",       :precision => 38, :scale => 0
-    t.datetime "created_at_date"
-    t.datetime "updated_at_date"
-  end
-
-  create_table "tempibtrves", :force => true do |t|
-    t.integer  "ibtr_id",          :precision => 38, :scale => 0
-    t.string   "state"
-    t.integer  "created_by",       :precision => 38, :scale => 0
-    t.integer  "created_at_int",   :precision => 38, :scale => 0
-    t.integer  "updated_at_int",   :precision => 38, :scale => 0
-    t.string   "flag_destination"
-    t.integer  "book_id",          :precision => 38, :scale => 0
-    t.datetime "created_at_date"
-    t.datetime "updated_at_date"
   end
 
   create_table "wheretables", :force => true do |t|
