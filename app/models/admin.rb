@@ -52,6 +52,7 @@ class Admin < ActiveRecord::Base
   def self.joinstring(table1,table2,whichjoin,flag)     ## table1,table2 are table names
     Rails.application.eager_load!
     tablehash = Hash[ActiveRecord::Base.descendants.collect{|c| [c.table_name, c.name]}]
+
     reflex1 = tablehash[table1.pluralize].classify.constantize.reflections[table2.pluralize.to_sym]
     if reflex1 == nil
      reflex1 = tablehash[table1.pluralize].classify.constantize.reflections[table2.singularize.to_sym]
