@@ -1,42 +1,24 @@
 class Admin < ActiveRecord::Base
   
-	def self.all_tables
+	def self.tables_model_hash
     Rails.application.eager_load!	 
-    arr=[]
-		ActiveRecord::Base.descendants.each do |table|
-		  if table._accessible_attributes?
-		    arr << table.name
-		  end
-		end
-	  arr
+    Hash[ActiveRecord::Base.descendants.collect{|c| [c.table_name, c.name]}]
 	end
 
   def self.all_attributes(table)
   	Rails.application.eager_load!        # Loads modals
-    table = table.classify.constantize       # convert string to actual class  (Casting)
-		attri = table.column_names              # attributes of the model
+    table.classify.constantize.column_names              # attributes of the model
 	end
 
   def self.all_associations(table)
   	asso_hash = {}
   	Rails.application.eager_load!        
     table =table.classify.constantize                       # convert string to actual class  (Casting)
-	  table.reflections.keys.each do |tname|         
-	           # all associations of the model ,keys are table_names , macro is the association_name
-      if asso_hash[table.reflections[tname].macro].nil?
-      	asso_hash[table.reflections[tname].macro]=[tname]
-      else 
-        asso_hash[table.reflections[tname].macro] << tname
-      end
+	  table.reflections.keys.each do |tname|  #all associations of the model ,keys are table_names , macro is the association_name
+      asso_hash[table.reflections[tname].macro]=[tname] if asso_hash[table.reflections[tname].macro].nil?
+      asso_hash[table.reflections[tname].macro] << tname
     end
     asso_hash
-  end
-
-
-  def self.table_to_modal(table1)
-    Rails.application.eager_load!
-    tablehash = Hash[ActiveRecord::Base.descendants.collect{|c| [c.table_name, c.name]}]
-    tablehash[table1]
   end
 
   def self.modal_to_table(modal1)
@@ -48,33 +30,27 @@ class Admin < ActiveRecord::Base
   end
 
 #Feature 1
+  def self.reflection_betn_two_tables(table1,table2)
+    reflex = table1.classify.constantize.reflections[table2.pluralize.to_sym]
+    reflex = table1.classify.constantize.reflections[table2.singularize.to_sym] if reflex == nil
+    reflex
+  end  
+
   def self.joinstring(table1,table2,whichjoin,flag)     ## table1,table2 are table names
     Rails.application.eager_load!
-    tablehash = Hash[ActiveRecord::Base.descendants.collect{|c| [c.table_name, c.name]}]
+    tablehash = tables_model_hash
 
-    reflex1 = tablehash[table1.pluralize].classify.constantize.reflections[table2.pluralize.to_sym]
-    if reflex1 == nil
-     reflex1 = tablehash[table1.pluralize].classify.constantize.reflections[table2.singularize.to_sym]
-    end  
-    reflex2 = tablehash[table2.pluralize].classify.constantize.reflections[table1.pluralize.to_sym]
-    if reflex2 == nil
-      reflex2 = tablehash[table2.pluralize].classify.constantize.reflections[table1.singularize.to_sym]
-    end  
-    asso1 = reflex1.macro.to_s
-    asso2 = reflex2.macro.to_s
-    attrr1 = reflex1.options[:foreign_key]
-    attrr2 = reflex2.options[:foreign_key]
-    if attrr1 == nil
-      attrr1 = "id"
-    end 
-    if attrr2 == nil
-      attrr2 = "id"
-    end 
-    if flag == 1
-      return " #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}"
-    else
-      return ", #{table1.pluralize} #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}"
-    end  
+    return "" if table2 == ""
+ 
+    asso1 = reflection_betn_two_tables(tablehash[table1.pluralize],table2).macro.to_s
+    asso2 = reflection_betn_two_tables(tablehash[table2.pluralize],table1).macro.to_s
+    attrr1 = reflection_betn_two_tables(tablehash[table1.pluralize],table2).options[:foreign_key]
+    attrr2 = reflection_betn_two_tables(tablehash[table2.pluralize],table1).options[:foreign_key]
+    attrr1 = "id" if attrr1 == nil
+    attrr2 = "id" if attrr2 == nil
+
+    return " #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}" if flag == 1
+    return ", #{table1.pluralize} #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}"
   end
 
 
@@ -94,7 +70,6 @@ class Admin < ActiveRecord::Base
     stage3=Class.new
     stage3=stage2.group(groupstr).having(havingstr)
   end
-
 
 #Feature 4
   def self.filters(stage3,wherestr)
@@ -123,7 +98,6 @@ class Admin < ActiveRecord::Base
       orderstr << x.table_attribute + " " + x.desc_asce + ","
     end
     orderstr = orderstr[0..orderstr.length-2]  
-    
     joined_table = multiple_join(maintable,joinstr,orderstr)
   end
 
@@ -162,28 +136,19 @@ class Admin < ActiveRecord::Base
     reportobj.selecttables.each do |x|
        selectstr << x.table_attribute + ","
     end  
-    if selectstr.length > 2
-    selectstr = selectstr[0..selectstr.length-2]
-    end
-
-    if selectstr == ""
-      after_select = select_attr(after_group_having,"*")
-    else        
-      after_select = select_attr(after_group_having,selectstr)
-    end
+    selectstr = selectstr[0..selectstr.length-2] if selectstr.length > 2
+    return after_select = select_attr(after_group_having,"*") if selectstr == ""
+    return after_select = select_attr(after_group_having,selectstr)
   end
 
 #calling retrive_data
   def self.retrive_data(id)
     reportobj=Report.find(id)
-    if id == nil
-      return "Error report doesnot get saved"
-    end
-
+    return "Error report doesnot get saved" if id == nil
+    
     joined_table = join_order_operation(reportobj)                       # Joining of tables and ordering of table
     after_where  = where_operation(joined_table,reportobj)               # appling filters on table
     after_group_having = group_having_operations(after_where,reportobj)  # appling group by and having 
     after_select = select_operation(after_group_having,reportobj)        # appling select operation
-
   end
 end
