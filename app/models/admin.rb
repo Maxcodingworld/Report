@@ -163,8 +163,15 @@ class Admin < ActiveRecord::Base
     reportobj.selecttables.each do |x|
        selectstr << x.table_attribute + ","
     end  
+    if selectstr.length > 2
     selectstr = selectstr[0..selectstr.length-2]
-    after_select = select_attr(after_group_having,selectstr)
+    end
+
+    if selectstr == ""
+      after_select = select_attr(after_group_having,"*")
+    else        
+      after_select = select_attr(after_group_having,selectstr)
+    end
   end
 
 #calling retrive_data
