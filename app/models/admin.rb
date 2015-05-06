@@ -11,15 +11,12 @@ class Admin < ActiveRecord::Base
 	end
 
   def self.all_associations(table)
-  	asso_hash = {}
-  	Rails.application.eager_load!        
-    table =table.classify.constantize                       # convert string to actual class  (Casting)
-	  table.reflections.keys.each do |tname|  #all associations of the model ,keys are table_names , macro is the association_name
-      asso_hash[table.reflections[tname].macro]=[tname] if asso_hash[table.reflections[tname].macro].nil?
-      asso_hash[table.reflections[tname].macro] << tname
-    end
-    asso_hash
+    hash = Hash.new
+    [:belongs_to,:has_many,:has_one,:has_and_belongs_to_many].each do |a| hash[a]=[] end
+    table.classify.constantize.reflections.keys.collect {|c| hash[table.classify.constantize.reflections[c].macro] << c }
+    hash  
   end
+
 
   def self.modal_to_table(modal1)
     modal1.classify.constantize.table_name
@@ -39,18 +36,11 @@ class Admin < ActiveRecord::Base
   def self.joinstring(table1,table2,whichjoin,flag)     ## table1,table2 are table names
     Rails.application.eager_load!
     tablehash = tables_model_hash
-
-    return "" if table2 == ""
- 
     asso1 = reflection_betn_two_tables(tablehash[table1.pluralize],table2).macro.to_s
     asso2 = reflection_betn_two_tables(tablehash[table2.pluralize],table1).macro.to_s
-    attrr1 = reflection_betn_two_tables(tablehash[table1.pluralize],table2).options[:foreign_key]
-    attrr2 = reflection_betn_two_tables(tablehash[table2.pluralize],table1).options[:foreign_key]
-    attrr1 = "id" if attrr1 == nil
-    attrr2 = "id" if attrr2 == nil
-
-    return " #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}" if flag == 1
-    return ", #{table1.pluralize} #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}"
+    attrr1 = "id" if (attrr1 = reflection_betn_two_tables(tablehash[table1.pluralize],table2).options[:foreign_key]) == nil
+    attrr2 = "id" if (attrr2 = reflection_betn_two_tables(tablehash[table2.pluralize],table1).options[:foreign_key]) == nil
+    return flag == 1 ? " #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}" : ", #{table1.pluralize} #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}"
   end
 
 
