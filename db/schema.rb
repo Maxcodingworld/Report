@@ -65,12 +65,6 @@ ActiveRecord::Schema.define(:version => 20150428113306) do
     t.string "name"
   end
 
-  create_table "etl_member_profiles", :force => true do |t|
-    t.string "email"
-    t.string "name"
-    t.string "category"
-  end
-
   create_table "etl_plans", :force => true do |t|
     t.string "name"
   end
