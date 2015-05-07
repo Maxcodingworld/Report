@@ -74,26 +74,34 @@ class Admin < ActiveRecord::Base
     stage5=stage4.paginate(:per_page => perpage , :page => pageno) 
   end  
 
-#calling multiple_join method
-  def self.join_order_operation(reportobj)
+# Collect full joinstring into one
+  def self.joinstrcollect(reportobj)
     var =1
     joinstr = ""
-    maintable=reportobj.jointables.first.table1
     reportobj.jointables.each do |x|
       joinstr << joinstring(x.table1,x.table2,x.whichjoin,var)
       var = var +1
     end
-    
+    joinstr
+  end
+
+# Collect full orderstring into one
+  def self.orderstrcollect(reportobj)
     orderstr = ""
-    reportobj.ordertables.each do |x|
-      orderstr << x.table_attribute + " " + x.desc_asce + ","
-    end
+    reportobj.ordertables.collect { |x| orderstr << x.table_attribute + " " + x.desc_asce + "," }
     orderstr = orderstr[0..orderstr.length-2]  
+  end
+
+#calling multiple_join method
+  def self.join_order_operation(reportobj)
+    maintable=reportobj.jointables.first.table1
+    joinstr = joinstrcollect(reportobj)
+    orderstr = orderstrcollect(reportobj)
     joined_table = multiple_join(maintable,joinstr,orderstr)
   end
 
-#calling filters method
-  def self.where_operation(joined_table,reportobj)
+# Collect full wherestring into one
+  def self.wherestrcollect(reportobj)
     wherestr = []
     wherestr[0]=""
     reportobj.wheretables.each do |x|
@@ -101,16 +109,23 @@ class Admin < ActiveRecord::Base
        wherestr << x.value
     end
     wherestr[0] = wherestr[0][0..wherestr[0].length-4]
+  end
+
+#calling filters method
+  def self.where_operation(joined_table,reportobj)
+    wherestr = wherestrcollect(reportobj)
     after_where = filters(joined_table,wherestr)
   end
 
-#calling group_having method
-  def self.group_having_operations(after_where,reportobj)
+#collect full groupstring into one
+  def self.groupstrcollect(reportobj)
     groupstr = ''     
-    reportobj.grouptables.each do |x|
-       groupstr << x.table_attribute + ","
-    end 
+    reportobj.grouptables.collect { |x|  groupstr << x.table_attribute + "," } 
     groupstr=groupstr[0..groupstr.length-2]
+  end
+
+#collect full havingstring into one
+  def self.havingstrcollect(reportobj)
     havingstr=[]
     havingstr[0] = ""
     reportobj.havingtables.each do |x|
@@ -118,16 +133,25 @@ class Admin < ActiveRecord::Base
        havingstr << x.value
     end
     havingstr[0] = havingstr[0][0..havingstr[0].length-4]
+  end   
+
+#calling group_having method
+  def self.group_having_operations(after_where,reportobj)
+    groupstr = groupstrcollect(reportobj)
+    havingstr = havingstrcollect(reportobj)
     after_group_having = group_having(groupstr,havingstr,after_where)
   end
   
+#collect full selectstr into one
+  def self.selectstrcollect(reportobj)
+    selectstr = ""
+    reportobj.selecttables.collect { |x| selectstr << x.table_attribute + "," }
+    selectstr = selectstr[0..selectstr.length-2] if selectstr.length > 2
+  end 
+
 #calling select_attr method 
   def self.select_operation(after_group_having,reportobj)
-    selectstr = ""
-    reportobj.selecttables.each do |x|
-       selectstr << x.table_attribute + ","
-    end  
-    selectstr = selectstr[0..selectstr.length-2] if selectstr.length > 2
+    selectstr = selectstrcollect(reportobj)
     return after_select = select_attr(after_group_having,"*") if selectstr == ""
     return after_select = select_attr(after_group_having,selectstr)
   end
