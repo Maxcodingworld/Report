@@ -109,6 +109,7 @@ class Admin < ActiveRecord::Base
        wherestr << x.value
     end
     wherestr[0] = wherestr[0][0..wherestr[0].length-4]
+    wherestr
   end
 
 #calling filters method
@@ -133,6 +134,7 @@ class Admin < ActiveRecord::Base
        havingstr << x.value
     end
     havingstr[0] = havingstr[0][0..havingstr[0].length-4]
+    havingstr
   end   
 
 #calling group_having method
@@ -166,5 +168,4 @@ class Admin < ActiveRecord::Base
     after_group_having = group_having_operations(after_where,reportobj)  # appling group by and having 
     after_select = select_operation(after_group_having,reportobj)        # appling select operation
   end
-
 end
