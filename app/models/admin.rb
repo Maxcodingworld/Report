@@ -94,7 +94,7 @@ class Admin < ActiveRecord::Base
 
 #calling multiple_join method
   def self.join_order_operation(reportobj)
-    maintable=reportobj.jointables.first.table1
+    maintable=reportobj.maintable.table
     joinstr = joinstrcollect(reportobj)
     orderstr = orderstrcollect(reportobj)
     joined_table = multiple_join(maintable,joinstr,orderstr)
