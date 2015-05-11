@@ -5,13 +5,13 @@ describe Admin do
         it "maintable should not be empty for a particular report otherwise should raise error" do
             a = { report: { description: "Testing" , invoke_times: 0 }}
             reportobj = Report.new(a[:report])
-            expect {reportobj.save! }.to raise_error
+            expect {reportobj.save }.to change(Report, :count).by(0)
         end
 
         it "maintable should be exist in same application" do
-            a = { report: { description: "Testing" , invoke_times: 0 , maintable_attributes:{table: "etl"} }}
+            a = { report: { description: "Testing" , invoke_times: 0 , maintable_attributes:{table: "etl"}}}
             reportobj = Report.new(a[:report])
-            expect {reportobj.save! }.to raise_error 
+            expect {reportobj.save }.to change(Report, :count).by(0)
         end
     end
 
@@ -81,7 +81,7 @@ describe Admin do
         it "if group string is null and having string is not null,save! should return error" do
         	a = { report: { description: "Testing_group_having" , invoke_times: 0 , havingtables_attributes: [ { table_attribute: "etl_member_plans.branch_id" , r_operator: ">=" , value: "25" , expo_default_flag: "0" }]}}
             reportobj = Report.new(a[:report])
-        	expect {reportobj.save! }.to raise_error
+        	expect {reportobj.save }.to change(Report, :count).by(0)
             #expect { Admin.group_having_operations(EtlMemberPlan.select("min(id)"),reportobj).collect(&:id) }.to raise_error 
             
         end
@@ -89,7 +89,7 @@ describe Admin do
         it "if group string is not null and select string is nil,save! should return error" do
             a = { report: { description: "Testing_group_having" , invoke_times: 0 , grouptables_attributes: [ { table_attribute: "etl_member_plans.branch_id" }]}}
             reportobj = Report.new(a[:report])
-            expect {reportobj.save! }.to raise_error
+            expect {reportobj.save }.to change(Report, :count).by(0)
             # expect { Admin.group_having_operations(EtlMemberPlan,reportobj).collect(&:id) }.to raise_error 
             
         end
@@ -97,7 +97,7 @@ describe Admin do
         it "if group string is not empty then select string should either contain the group specified attribute or attribute with aggregate function otherwise save! should raise error" do
             a = { report: { description: "Testing_group_having" , invoke_times: 0 ,selecttables_attributes:[{table_attribute: "etl_member_plans.id"}] ,grouptables_attributes: [ { table_attribute: "etl_member_plans.branch_id" }]}}
             reportobj = Report.new(a[:report])
-            expect {reportobj.save! }.to raise_error
+            expect {reportobj.save }.to change(Report, :count).by(0)
         end
 
     end
@@ -130,30 +130,30 @@ describe Admin do
             Rails.application.eager_load!
             a = { report: { description: "Testing_select" , invoke_times: 0 , selecttables_attributes: [ { table_attribute: "etl_member_plans.noattribute" }] , maintable_attributes: {table: "etl_member_plans"} , jointables_attributes: [ { table1: "etl_member_plans" , table2: "etl_branches" , whichjoin: "INNER JOIN" }] }}
             reportobj = Report.new(a[:report])
-            expect {reportobj.save! }.to raise_error
+            expect {reportobj.save }.to change(Report, :count).by(0)
         end
         it "all attributes in where table should be contained in selected tables attribute set otherwise error" do
             a = { report: { description: "Testing_where" , invoke_times: 0 , wheretables_attributes: [ { table_attribute: "etl_member_plans.noattribute" , r_operator: ">=" , value: "25" , expo_default_flag: "0" }], maintable_attributes: {table: "etl_member_plans"} , jointables_attributes: [ { table1: "etl_member_plans" , table2: "etl_branches" , whichjoin: "INNER JOIN" }]}}
             reportobj = Report.new(a[:report])
-            expect {reportobj.save! }.to raise_error
+            expect {reportobj.save }.to change(Report, :count).by(0)
         end    
 
         it "all attributes in group table should be contained in selected tables attribute set otherwise error" do
             a = { report: { description: "Testing_group_having" , invoke_times: 0 , grouptables_attributes: [ { table_attribute: "etl_member_plans.noattribute" }] , maintable_attributes: {table: "etl_member_plans"} , jointables_attributes: [ { table1: "etl_member_plans" , table2: "etl_branches" , whichjoin: "INNER JOIN" }] }}
             reportobj = Report.new(a[:report])
-            expect {reportobj.save! }.to raise_error
+            expect {reportobj.save }.to change(Report, :count).by(0)
         end
 
         it "all attributes in having table should be contained in selected tables attribute set otherwise error" do
             a = { report: { description: "Testing_group_having" , invoke_times: 0 , havingtables_attributes: [ { table_attribute: "etl_member_plans.noattribute" , r_operator: ">=" , value: "25" , expo_default_flag: "0" }] , maintable_attributes: {table: "etl_member_plans"} , jointables_attributes: [ { table1: "etl_member_plans" , table2: "etl_branches" , whichjoin: "INNER JOIN" }]}}
             reportobj = Report.new(a[:report])
-            expect {reportobj.save! }.to raise_error
+            expect {reportobj.save }.to change(Report, :count).by(0)
         end
 
         it "all attributes in order table should be contained in selected tables attribute set otherwise error" do
             a = { report: { description: "Testing_group_having" , invoke_times: 0 , ordertables_attributes: [ { table_attribute: "etl_member_plans.noattribute",desc_asce: "DESC" , expo_default_flag: "0" }] , maintable_attributes: {table: "etl_member_plans"} , jointables_attributes: [ { table1: "etl_member_plans" , table2: "etl_branches" , whichjoin: "INNER JOIN" }]}}
             reportobj = Report.new(a[:report])
-            expect {reportobj.save! }.to raise_error
+            expect {reportobj.save }.to change(Report, :count).by(0)
         end
     end
 end	    

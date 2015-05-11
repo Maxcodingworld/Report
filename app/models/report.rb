@@ -72,7 +72,7 @@ class Report < ActiveRecord::Base
 
   def validity_of_attributes
     array=[]
-    array = Admin.all_attributes(self.maintable.table) if self.maintable.present?
+    array = Admin.all_attributes(self.maintable.table) if self.maintable.present? and Admin.tables_model_hash.keys.include?(self.maintable.table)
     if !self.jointables.empty? 
       self.jointables.each do |x|
         array = array + Admin.all_attributes(x.table1)
