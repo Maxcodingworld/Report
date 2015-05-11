@@ -18,7 +18,7 @@ class ReportsController < ApplicationController
 
 	def index
     report_id = params[:id]
-    #result = Admin.retrive_data(params[:id])
+    result = Admin.retrive_data(params[:id])
 	end
 
 end

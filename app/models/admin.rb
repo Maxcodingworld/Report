@@ -139,8 +139,9 @@ class Admin < ActiveRecord::Base
 
 #calling group_having method
   def self.group_having_operations(after_where,reportobj)
+    havingstr = ''
     groupstr = groupstrcollect(reportobj)
-    havingstr = havingstrcollect(reportobj)
+    havingstr = havingstrcollect(reportobj) if reportobj.havingtables.present?
     after_group_having = group_having(groupstr,havingstr,after_where)
   end
   
@@ -160,12 +161,13 @@ class Admin < ActiveRecord::Base
 
 #calling retrive_data
   def self.retrive_data(id)
+    Rails.application.eager_load!
     reportobj=Report.find(id.to_i)
     return "Error report doesnot get saved" if id == nil
     
-    joined_table = join_order_operation(reportobj)                       # Joining of tables and ordering of table
-    after_where  = where_operation(joined_table,reportobj)               # appling filters on table
-    after_group_having = group_having_operations(after_where,reportobj)  # appling group by and having 
-    after_select = select_operation(after_group_having,reportobj)        # appling select operation
+    joined_table = join_order_operation(reportobj)                              # Joining of tables and ordering of table
+    after_where  = where_operation(joined_table,reportobj)                      # appling filters on table
+    after_group_having = group_having_operations(after_where,reportobj)         # appling group by and having 
+    after_select = select_operation(after_group_having,reportobj)               # appling select operation
   end
 end
