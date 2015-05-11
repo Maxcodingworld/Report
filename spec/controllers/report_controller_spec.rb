@@ -34,7 +34,6 @@ RSpec.describe ReportsController, :type => :controller do
         a ={}
         a[:report] = { description: "Testing" , invoke_times: 0 , maintable_attributes: {table: "etl_member_plans"}, jointables_attributes: [ { table1: "etl_member_plans" , table2: "etl_branches" , whichjoin: "INNER JOIN" }]}
         reportobj=Report.new(a[:report])
-        expect{ reportobj.save }.to change(Report, :count).by(1)
         get :index , :id => reportobj.id
         assigns[:report_id] == reportobj.id 
         assigns[:result].class == ActiveRecord::Relation
@@ -42,5 +41,6 @@ RSpec.describe ReportsController, :type => :controller do
     end
   
   end
+
 end
 

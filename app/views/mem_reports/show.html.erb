@@ -13,35 +13,35 @@
     </tr>
     <tr>
       <td>
-        <% if @mb.branch_id.nil?%>
-           <%= "All"%>
+        <% if @filter.branch_id.nil?%>
+        <%= "All"%>
         <% else %>
-           <%=  EtlBranch.where(:id => @mb.branch_id).first.name%>
+        <%=  EtlBranch.where(:id => @filter.branch_id).first.name%>
         <%end%>
       </td>
       <td>
-        <% if @mb.plan_id.nil?%>
-          <%= "All"%>
+        <% if @filter.plan_id.nil?%>
+        <%= "All"%>
         <% else %>
-          <%=  EtlPlan.where(:id => @mb.plan_id).first.name%>
+        <%=  EtlPlan.where(:id => @filter.plan_id).first.name%>
         <%end%>
       </td>
       <td>
-        <%= @mb.from_book%>
+        <%= @filter.from_book%>
       </td>
       <td>
-        <%= @mb.to_book%>
+        <%= @filter.to_book%>
       </td>  
       <td>
-        <% if @mb.day_limit == 'all'%>
+        <% if @filter.day_limit == 'all'%>
           <%= "All"%>
-        <% elsif  @mb.day_limit == 'oneweek'%>
+        <% elsif  @filter.day_limit == 'oneweek'%>
           <%=  "Last week"%>
-        <% elsif  @mb.day_limit == 'onemonth'%>
+         <% elsif  @filter.day_limit == 'onemonth'%>
           <%=  "Last month"%>
-        <% else %>
-          <%="From date: #{@mb.from_date.to_date}"%>
-          <%="To date: #{@mb.to_date.to_date}"%>
+         <% else %>
+          <%="From date: #{@filter.from_date.to_date}"%>
+          <%="To date: #{@filter.to_date.to_date}"%>
         <%end%>
       </td>
     </tr>
@@ -67,9 +67,10 @@
         <td>
           <%= EtlPlan.find_by_id(mp.p_id).name %>
         </td>
-        <td>
-          <%=link_to mp.tot , bookdetail_mem_reports_path(id: mp.member_plan_id ,filter_id: @mb.id) %>
-        </td>
+       <td>
+        <%=  %>
+        <%=link_to mp.tot , bookdetail_mem_reports_path(id: mp.member_plan_id ,filter_id: @filter.id) %>
+      </td>
         <td>
           <%=  EtlBranch.find_by_id(mp.b_id).name%>
         </td>

@@ -3,7 +3,7 @@
 <br/>
 
 
-<% if @a && !@a.empty? %>
+<% if @bdetail && !@bdetail.empty? %>
   <table class="table table-condensed">
     <tr>
       <th>Member Name</th>
@@ -11,25 +11,27 @@
       <th>Title :</th>
     </tr>
     <tr>
-    	<td>
-    		<%= EtlMemberProfileInfo.find_by_id(@a.first.member_profile_id).name %>
-    	</td>
-    	<td>
-    		<%= @a.first.member_plan_id%>
-    	</td>
-    	     <td>
-    		<% @a.each do |mp| %>
+      <td>
+        <%= EtlMemberProfileInfo.find_by_id(@bdetail.first.member_profile_id).name %>
+      </td>
+      <td>
+        <%= @bdetail.first.member_plan_id%>
+      </td>
+           <td>
+        <% @bdetail.each do |mp| %>
             
             <%= EtlTitle.find_by_id(mp.title_id).title %>
-          		
-          	   <br>
-          	
-    		<% end %>
-    		</td>
-    	<br>
+              
+               <br>
+            
+        <% end %>
+        </td>
+      <br>
      </tr>
   </table>
   <div class="clear"></div>
+  <!-- %center= will_paginate(@rep, :params => {:controller => 'accounts', :action => "rep", :format => :js}, :param_name => "rewards_page")
+  -->
 <% else %>
   No returns till date
 <% end %>
