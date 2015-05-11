@@ -15,18 +15,12 @@ require 'will_paginate/array'
 	  end
 
 	  def show
-	  	 @mb = MemReport.find(params[:id])
-	  	 @rep = @mb.find_members().paginate :page => (params[:page].blank? ? 1 : params[:page]), :per_page => (params[:per_page] ||20)
+	  	 @filter = MemReport.find(params[:id])
+	  	 @rep = @filter.find_members().paginate :page => (params[:page].blank? ? 1 : params[:page]), :per_page => (params[:per_page] ||20)
 	  end
 
 	  def bookdetail
-	  	  @f = MemReport.find(params["filter_id"])
-	  	  p @f
-
-	  	  @m = params["id"].to_i
-	  	  p @m
-	  	  @a = @f.book_details(@m)
-	  	   
+	  	  @bdetail = MemReport.find(params["filter_id"]).book_details(params["id"].to_i)
 	  end
 
 	  
