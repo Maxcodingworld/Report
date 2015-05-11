@@ -30,12 +30,7 @@ RSpec.describe ReportsController, :type => :controller do
     end
 
     context "index method" do
-      it "should get report id by params" do
-        get :index , :id => '10001'
-        assigns[:report_id] == '10001' 
-      end
-      
-      it "should call the required report building function in model and get the result" do
+      it "should get report id by params and should call the required report building function in model and get the result" do
         a ={}
         a[:report] = { description: "Testing" , invoke_times: 0 , maintable_attributes: {table: "etl_member_plans"}, jointables_attributes: [ { table1: "etl_member_plans" , table2: "etl_branches" , whichjoin: "INNER JOIN" }]}
         reportobj=Report.new(a[:report])
