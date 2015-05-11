@@ -41,7 +41,7 @@ class Report < ActiveRecord::Base
   def group_without_select
     if !(self.selecttables.present?)
       if (self.grouptables.present?)
-        errors.add(:selecttables,"is nil and grouptables isn't nil")
+        errors.add(:grouptables,"is not nil and selecttables is nil")
       end 
     end
   end

@@ -4,7 +4,6 @@ class ReportsController < ApplicationController
 	  @reportobj = Report.new[params[:report]]
 	end
 
-
 	def create
 		reportobj = Report.new(params[:report])
 			if reportobj.save
@@ -19,5 +18,4 @@ class ReportsController < ApplicationController
     report_id = params[:id]
     result = Admin.retrive_data(params[:id])
 	end
-
 end
