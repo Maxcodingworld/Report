@@ -1,5 +1,4 @@
 class Admin < ActiveRecord::Base
-
   
 	def self.tables_model_hash
     Rails.application.eager_load!	 
@@ -17,7 +16,6 @@ class Admin < ActiveRecord::Base
     table.classify.constantize.reflections.keys.collect {|c| hash[table.classify.constantize.reflections[c].macro] << c }
     hash  
   end
-
 
   def self.modal_to_table(modal1)
     modal1.classify.constantize.table_name
@@ -43,7 +41,6 @@ class Admin < ActiveRecord::Base
     attrr2 = "id" if (attrr2 = reflection_betn_two_tables(tablehash[table2.pluralize],table1).options[:foreign_key]) == nil
     return flag == 1 ? " #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}" : ", #{table1.pluralize} #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}"
   end
-
 
   def self.multiple_join(table1,joinstr,order)
     stage1=Class.new
