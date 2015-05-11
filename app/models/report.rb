@@ -3,9 +3,6 @@ class Report < ActiveRecord::Base
   :jointables_attributes,:havingtables_attributes,:ordertables_attributes,:grouptables_attributes,:maintable_attributes
 
   validate :maintable_table_should_be_present
-  validate :maintable_table_should_exist
-  validates_associated :jointables
-  validate :group_table_attribute_empty 
   validate :having_without_group
   validate :group_without_select
   validate :select_according_to_group
@@ -33,17 +30,6 @@ class Report < ActiveRecord::Base
      errors.add(:maintable,"should not empty") unless self.maintable.present?
   end
 
-  def maintable_table_should_exist
-    unless self.maintable.present? and Admin.tables_model_hash.keys.include?(self.maintable.table)
-      errors.add(:maintable,"'s table_name is not correct")    
-    end
-  end
-
-  def group_table_attribute_empty
-      self.grouptables.each do |x| errors.add(:grouptables,"table_attributes should not empty") if x.table_attribute == nil end
-      self.havingtables.each do |x| errors.add(:havingtables,"table_attribute should not empty") if x.table_attribute == nil end
-  end 
-
   def having_without_group
     if !(self.grouptables.present?)
       if (self.havingtables.present?)
@@ -55,7 +41,7 @@ class Report < ActiveRecord::Base
   def group_without_select
     if !(self.selecttables.present?)
       if (self.grouptables.present?)
-        errors.add(:selecttables,"is nil and grouptables isn't nil")
+        errors.add(:grouptables,"is not nil and selecttables is nil")
       end 
     end
   end

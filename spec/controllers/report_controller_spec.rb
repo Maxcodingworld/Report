@@ -39,8 +39,6 @@ RSpec.describe ReportsController, :type => :controller do
         assigns[:result].class == ActiveRecord::Relation
       end
     end
-  
   end
-
 end
 
