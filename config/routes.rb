@@ -4,6 +4,8 @@ Bboard::Application.routes.draw do
 
 root :to => 'order_reports#choose'
 
+resources :reports 
+    
 resources :order_reports do
     collection do
       get 'filter'

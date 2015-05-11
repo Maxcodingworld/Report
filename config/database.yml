@@ -6,8 +6,8 @@
 development:
   adapter: oracle_enhanced
   database: XE
-  username: memp_etl
-  password: memp_etl
+  username: bboard
+  password: bboard
 
 test:
   adapter: oracle_enhanced
