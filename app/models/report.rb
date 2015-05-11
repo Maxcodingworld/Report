@@ -2,16 +2,16 @@ class Report < ActiveRecord::Base
   attr_accessible :description, :invoke_times ,:selecttables_attributes,:wheretables_attributes,
   :jointables_attributes,:havingtables_attributes,:ordertables_attributes,:grouptables_attributes,:maintable_attributes
 
-  
+  validate :maintable_table_should_be_present
+  validate :maintable_table_should_exist
   validates_associated :jointables
   validate :group_table_attribute_empty 
   validate :having_without_group
   validate :group_without_select
   validate :select_according_to_group
   validate :validity_of_attributes
-  validate :maintable_attributes_should_be_present
-  validate :maintable_should_be_exist
-
+  
+  
   has_many :selecttables
   has_many :wheretables
   has_many :jointables
@@ -29,12 +29,14 @@ class Report < ActiveRecord::Base
   accepts_nested_attributes_for :ordertables , allow_destroy: true
   accepts_nested_attributes_for :maintable  , allow_destroy: true
   
-  def maintable_attributes_should_be_present
+  def maintable_table_should_be_present
      errors.add(:maintable,"should not empty") unless self.maintable.present?
   end
 
-  def maintable_should_be_exist
-    Admin.tables_model_hash.keys.include?(self.maintable.table)
+  def maintable_table_should_exist
+    unless self.maintable.present? and Admin.tables_model_hash.keys.include?(self.maintable.table)
+      errors.add(:maintable,"'s table_name is not correct")    
+    end
   end
 
   def group_table_attribute_empty
@@ -69,6 +71,7 @@ class Report < ActiveRecord::Base
   end
 
   def validity_of_attributes
+    array=[]
     array = Admin.all_attributes(self.maintable.table) if self.maintable.present?
     if !self.jointables.empty? 
       self.jointables.each do |x|

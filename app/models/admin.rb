@@ -160,7 +160,7 @@ class Admin < ActiveRecord::Base
 
 #calling retrive_data
   def self.retrive_data(id)
-    reportobj=Report.find(id)
+    reportobj=Report.find(id.to_i)
     return "Error report doesnot get saved" if id == nil
     
     joined_table = join_order_operation(reportobj)                       # Joining of tables and ordering of table
