@@ -1,6 +1,6 @@
 class Grouptable < ActiveRecord::Base
   attr_accessible :report_id, :table_attribute
-  belongs_to :reports
+  belongs_to :report
 
   validate :group_table_attribute_empty
 

@@ -1,0 +1,21 @@
+
+
+<%= nested_form_for @report, :url => { :action => "new" } do |f| %>
+  <%= f.label :Description %>
+  <%= f.text_field :description %>
+  <%= f.fields_for :maintable do |mainobj| %>
+    <%= mainobj.label :Table %>
+	  <%= mainobj.select(:table,options_for_select(@all_tables)) %>
+	<% end %>
+	
+  <%= f.fields_for :jointables do |joinobj| %>
+    <%= joinobj.label :table1 %>
+	  <%= joinobj.select(:table1,options_for_select(@all_tables)) %>
+	  <%= joinobj.label :table2 %>
+	  <%= joinobj.select(:table2,options_for_select(@all_tables)) %>
+	  <%= joinobj.label :Which_Join %>
+	  <%= joinobj.select(:whichjoin,options_for_select([["Inner Join","INNER JOIN"],["Left Outer Join","LEFT OUTER JOIN"],["Right Outer Join","RIGHT OUTER JOIN"]])) %>
+	  <%= joinobj.link_to_remove "Remove this Join" %>
+	<% end %>
+	<%= f.link_to_add "Add a Join", :jointables %>
+<% end %>

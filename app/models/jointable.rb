@@ -1,6 +1,6 @@
 class Jointable < ActiveRecord::Base
   attr_accessible :report_id, :table1, :table2, :whichjoin
-  belongs_to :reports
+  belongs_to :report
 
   validates :table1 , :inclusion => { :in => ActiveRecord::Base.descendants.collect{|c| c.table_name} , :message => "%{value} Not a table"}
   validates :table2 , :inclusion => { :in => ActiveRecord::Base.descendants.collect{|c| c.table_name} , :message => "%{value} Not a table"}

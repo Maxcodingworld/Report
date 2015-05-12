@@ -2,7 +2,7 @@ class Admin < ActiveRecord::Base
   
 	def self.tables_model_hash
     Rails.application.eager_load!	 
-    Hash[ActiveRecord::Base.descendants.collect{|c| [c.table_name, c.name]}]
+    Hash[ActiveRecord::Base.descendants.collect{|c| [c.table_name, c.name] unless c.accessible_attributes.empty?}]
 	end
 
   def self.all_attributes(table)

@@ -1,7 +1,10 @@
 class ReportsController < ApplicationController
 
 	def new
-	  @reportobj = Report.new[params[:report]]
+	  @report = Report.new
+	  @report.maintable = Maintable.new
+	  @report.jointables << Jointable.new
+	  @all_tables = Admin.tables_model_hash
 	end
 
 	def create
