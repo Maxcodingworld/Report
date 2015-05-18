@@ -15,6 +15,7 @@ gem "capistrano","2.14.2"
 gem 'activerecord-oracle_enhanced-adapter','1.4.2'
 gem 'activewarehouse-etl', '1.0.0'
 gem 'will_paginate'
+gem "nested_form"
 
 group :development, :test do
  gem 'debugger'
