@@ -7,6 +7,7 @@ root :to => 'order_reports#choose'
 resources :reports do
   collection do
     get 'association'
+    get 'attributes'
   end
 end
     

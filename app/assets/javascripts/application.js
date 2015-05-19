@@ -1,4 +1,17 @@
 //= require jquery_nested_form
+
+Array.prototype.unique = function(){
+    for(var i = 0; i < this.length; i++){
+        if( this.indexOf(this[i], i+1) != -1 ){
+            this.splice(i,1);
+            i--;
+        }
+    }
+    return this;
+}
+
+var arroftables = []
+
 $(document).ready(function() {
 	$('#mem_report_day_limit').change(function(){
 	    var limit_id = $(this).val();
@@ -14,82 +27,50 @@ $(document).ready(function() {
 
 	});
 
-	$('.table1').change(function(){
-		// console.log("hi");
-		$.get('/reports/association?table_name='+$(this).find("option:selected").text(),function(data){
-	    	// console.log(data);
-	    	// $('.table2').html();
-	    	$('.table2').last().html(data);
-	    	});
-	});
-
-	$('#report_maintable_attributes_table').change(function(){
-	    // var model_name = $(this).val();
-	    var model = $(this).find("option:selected").text();
-	    // var model = $('#report_maintable_attributes_table option:selected').text();
-	    // alert(model);
-	    // alert("hi");
-	    // console.log("hi");
-	    var size = $('.table1 option').size();
-	    if(size == 1)
-	    {
-	     $(".table1").append($("<option></option>")
-         .attr("value",model)
-         .text(model));
-	    }
-	    else if(size == 2)
-	    {
-          document.getElementById("report_jointables_attributes_0_table1").options[1].text = model;
-   	      document.getElementById("report_jointables_attributes_0_table1").options[1].value = model;
-	    }
-	     
-
-	    // var size = $('.table1').size();
-	    // alert(size);
-	    // document.getElementById("report_jointables_attributes_0_table1").options[0].text = model;
-	    // document.getElementById("report_jointables_attributes_0_table1").options[0].value = model_name;
-	    // document.getElementById("report_jointables_attributes_0_id").value = model;
-	    // $.get('/reports/association?table_name='+$(this).find("option:selected").text(),function(data){
-	    // 	// console.log(data);
-	    // 	// $('#report_jointables_attributes_0_id').html();
-	    // 	$('#report_jointables_attributes_0_id').html(data);
-	    // 	});
-	    // document.getElementById("report_jointables_attributes_0_table1").text = model;
-	     // $("#report_jointables_attributes_0_table1").append($("<option></option>")
-         // .attr("value",model_name)
-         // .text(model)); 
-	    // $("#report_jointables_attributes_0_table1").append("<option value=model_name>hi</option>")
-	});
 });
-
 
 
 
 $(document).on('nested:fieldAdded:jointables', function(click){
 	
-	var table1_val = $('.table1').val();
+	if($('.table1').size() > 1)
+	{
+		arroftables.push($('.table1').eq($('.table1').size() - 2 ).val());
+	    arroftables.push($('.table2').eq($('.table2').size() - 2 ).val());
+	}
+	else if($('.table1').size() == 1)
+	{
+		arroftables.push($('#report_maintable_attributes_table').find("option:selected").text());
+	}
+	arroftables = arroftables.unique();
+	for(var i=0;i<arroftables.length;i++)
+	{
+		$('.table1').last().append($('<option>', {
+	    value: arroftables[i],
+	    text: arroftables[i]
+	     }));	
+	}
 
-	// $('.table1 option:contains("table1 or maintable")').test('');
-	// var table1_text = $('.table1 pseudoclass');
-	// var table1_text = $('.table1').first().find("option:selected").text();
-	var table2_val = $('.table2').val();
-	console.log(table1_val);
-	console.log(table2_val);
-	// var table2_text = $('.table2').first().find("option:selected").text();
-	$('.table1').last().append($('<option>', {
-    value: table1_val,
-    text: table1_val
-}));
-	$('.table1').last().append($('<option>', {
-    value: table2_val,
-    text: table2_val
-}));
 	$('.table1').change(function(){
-		// console.log("hi");
 		$.get('/reports/association?table_name='+$(this).find("option:selected").text(),function(data){
-	    	// console.log(data);
-	    	// $('.table2').html();
 	    	$('.table2').last().html(data);
-	    	});
+	   	});
 	});
+	
 });
+
+
+$(document).on('nested:fieldAdded:wheretables', function(click){
+	if($('.table_attribute').size() == 1)
+	{
+		arroftables.push($('.table2').last().val());
+	}
+	console.log(arroftables);
+	$.get('/reports/attributes?table_name='+arroftables,function(data){
+	    	$('.table_attribute').last().html(data);
+	   	});
+});
+
+
+
+
