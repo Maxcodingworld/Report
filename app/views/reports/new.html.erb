@@ -1,21 +1,42 @@
-
+<h2>Report</h2>
 
 <%= nested_form_for @report, :url => { :action => "new" } do |f| %>
   <%= f.label :Description %>
   <%= f.text_field :description %>
   <%= f.fields_for :maintable do |mainobj| %>
     <%= mainobj.label :Table %>
-	  <%= mainobj.select(:table,options_for_select(@all_tables)) %>
-	<% end %>
-	
+    <%= mainobj.select(:table,options_for_select(@all_tables)) %>
+  <% end %>
+  <h1>Join Condition</h1>
   <%= f.fields_for :jointables do |joinobj| %>
     <%= joinobj.label :table1 %>
-	  <%= joinobj.select(:table1,options_for_select(@all_tables)) %>
-	  <%= joinobj.label :table2 %>
-	  <%= joinobj.select(:table2,options_for_select(@all_tables)) %>
-	  <%= joinobj.label :Which_Join %>
-	  <%= joinobj.select(:whichjoin,options_for_select([["Inner Join","INNER JOIN"],["Left Outer Join","LEFT OUTER JOIN"],["Right Outer Join","RIGHT OUTER JOIN"]])) %>
-	  <%= joinobj.link_to_remove "Remove this Join" %>
-	<% end %>
-	<%= f.link_to_add "Add a Join", :jointables %>
+    <%= joinobj.select(:table1 , options_for_select(['table']),{},{:class => "table1"}) %>
+    <%= joinobj.label :table2 %>
+    <%= joinobj.select(:id,options_for_select(['associated tables']),{},{:class =>"table2"}) %>
+    <%= joinobj.label :table2 %>
+    <%= joinobj.select(:whichjoin,options_for_select([["Inner Join","INNER JOIN"],["Left Outer Join","LEFT OUTER JOIN"],["Right Outer Join","RIGHT OUTER JOIN"]])) %>
+    <%= joinobj.link_to_remove "Remove this Join" %>
+  <% end %>
+  <p><%= f.link_to_add "Add a Join", :jointables %></p>
+  <h1>Where Condition</h1>
+  <%= f.fields_for :wheretables do |whereobj| %>
+    <%= whereobj.label :table_attribute %>
+    <%= whereobj.select(:table_attribute , options_for_select(['attributes']),{},{:class => "table_attribute"}) %>
+    <%= whereobj.label :r_operator %>
+    <%= whereobj.select(:r_operator,options_for_select([["operator","operator"],[">","Greater than"],["<","Lesser"],
+      ["!=","not_equal"],["=","equal"],[">=","g_than_e"],["<=","l_than_e"],["!<","not_less_than"],
+      ["!>","not_greater_than"]]),{},{:class =>"r_operator"}) %>
+    <%= whereobj.label :expo_default_flag %>  
+    <%= whereobj.select(:expo_default_flag,options_for_select([["No_Expose",0],["Expose_with_default_value" ,2],["Expose_without_default_value",1]]))%>  
+    <%= whereobj.label :value %>
+    <%= whereobj.text_field(:value , :value => 0) %>
+    <%= whereobj.link_to_remove "Remove this where condition" %>
+  <% end %>
+
+  
+  <p><%= f.link_to_add "Add a where condition", :wheretables %></p>
+
+  <h1>Group By Condition</h1>
+  <h1>Having Condition</h1>
+  <h1>Select Condition</h1>
 <% end %>

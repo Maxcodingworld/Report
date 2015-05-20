@@ -4,7 +4,12 @@ Bboard::Application.routes.draw do
 
 root :to => 'order_reports#choose'
 
-resources :reports 
+resources :reports do
+  collection do
+    get 'association'
+    get 'attributes'
+  end
+end
     
 resources :order_reports do
     collection do

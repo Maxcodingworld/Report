@@ -28,28 +28,28 @@ describe Admin do
     end
 
 
-	context "Join Module" do
+    context "Join Module" do
         it "joinstring should return respective string to join two tables for flag = 1" do 
-        	Admin.joinstring("etl_member_plans","etl_branches","INNER JOIN",1).should eq(" INNER JOIN etl_branches on etl_member_plans.branch_id = etl_branches.id")  	    	 
-  	    end
+            Admin.joinstring("etl_member_plans","etl_branches","INNER JOIN",1).should eq(" INNER JOIN etl_branches on etl_member_plans.branch_id = etl_branches.id")             
+        end
     
         it "joinstring should return respective string to join two tables for flag = 2" do 
-        	Admin.joinstring("etl_member_plans","etl_branches","INNER JOIN",2).should eq(", etl_member_plans INNER JOIN etl_branches on etl_member_plans.branch_id = etl_branches.id")  	    	 
-  	    end
+            Admin.joinstring("etl_member_plans","etl_branches","INNER JOIN",2).should eq(", etl_member_plans INNER JOIN etl_branches on etl_member_plans.branch_id = etl_branches.id")               
+        end
         
         it "joinstring should return error if table name doesnot exist" do 
-        	expect { Admin.joinstring("a","etl_branches","INNER JOIN",1)}.to raise_error	    	 
-  	    end
+            expect { Admin.joinstring("a","etl_branches","INNER JOIN",1)}.to raise_error             
+        end
     
         it "joinstring should return error if association doesnot exist between tables" do 
-        	expect { Admin.joinstring("etl_plans","etl_branches","INNER JOIN",1)}.to raise_error	    	 
-  	    end  
+            expect { Admin.joinstring("etl_plans","etl_branches","INNER JOIN",1)}.to raise_error             
+        end  
 
         it "join_order_operation should return the joined table accordingly" do
-        	obj=FactoryGirl.build(:etl_member_plan)
+          obj=FactoryGirl.build(:etl_member_plan)
           obj.save
-        	reportobj = Report.new(a[:report])
-        	reportobj.save
+          reportobj = Report.new(a[:report])
+          reportobj.save
           query1 = Admin.join_order_operation(reportobj).collect(&:branch_id) 
           query2 = EtlMemberPlan.joins(:etl_branch).collect(&:branch_id)
           (query1 - query2).should == []
@@ -59,10 +59,10 @@ describe Admin do
 
     context "where Module" do
         it "where_operation should return the required output" do 
-        	  obj=FactoryGirl.build(:etl_member_plan)
+            obj=FactoryGirl.build(:etl_member_plan)
             obj.save
             reportobj = Report.new(a[:report])
-        	  reportobj.save!
+            reportobj.save!
             query1 = Admin.where_operation(Admin.join_order_operation(reportobj),reportobj).collect(&:branch_id) 
             query2 = EtlMemberPlan.joins(:etl_branch).where("etl_member_plans.branch_id >= 25").collect(&:branch_id)
             (query1 - query2).should == []
@@ -70,11 +70,11 @@ describe Admin do
         end
     
         it "if where string is null , where_operation should return the same output as input" do
-        	  obj=FactoryGirl.build(:etl_member_plan)
+            obj=FactoryGirl.build(:etl_member_plan)
             obj.save
             a[:report].delete(:wheretables_attributes)
             reportobj = Report.new(a[:report])
-        	  reportobj.save!
+            reportobj.save!
             query1 = Admin.where_operation(Admin.join_order_operation(reportobj),reportobj).collect(&:branch_id) 
             query2 = EtlMemberPlan.joins(:etl_branch).collect(&:branch_id)
             (query1 - query2).should == []
@@ -84,10 +84,10 @@ describe Admin do
 
     context "group having Module" do
         it "group_having_operations should return the required output" do 
-        	 obj=FactoryGirl.build(:etl_member_plan)
+           obj=FactoryGirl.build(:etl_member_plan)
             obj.save
             reportobj = Report.new(a[:report])
-        	  reportobj.save
+            reportobj.save
             query1 = Admin.group_having_operations(EtlMemberPlan.select("min(id) as id"),reportobj).collect(&:id) 
             query2 = EtlMemberPlan.select("min(id) as id").group("branch_id").having("etl_member_plans.branch_id >= 25").collect(&:id)
             (query1 - query2).should == []
@@ -95,9 +95,9 @@ describe Admin do
         end
     
         it "if group string is null and having string is not null,save! should return error" do
-        	a[:report].delete(:grouptables_attributes) 
+          a[:report].delete(:grouptables_attributes) 
           reportobj = Report.new(a[:report])
-        	expect {reportobj.save }.to change(Report, :count).by(0)
+          expect {reportobj.save }.to change(Report, :count).by(0)
           reportobj.errors.messages[:grouptables].include?("is nil and having table isn't nil").should == true
         end
     
@@ -179,4 +179,4 @@ describe Admin do
             reportobj.errors.messages[:ordertables].include?("attributes of ordertable are not compatible").should == true
         end
     end
-end	    
+end
