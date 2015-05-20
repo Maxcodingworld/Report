@@ -26,11 +26,17 @@
     <%= whereobj.select(:r_operator,options_for_select([["operator","operator"],[">","Greater than"],["<","Lesser"],
       ["!=","not_equal"],["=","equal"],[">=","g_than_e"],["<=","l_than_e"],["!<","not_less_than"],
       ["!>","not_greater_than"]]),{},{:class =>"r_operator"}) %>
+    <%= whereobj.label :expo_default_flag %>  
+    <%= whereobj.select(:expo_default_flag,options_for_select([["No_Expose",0],["Expose_with_default_value" ,2],["Expose_without_default_value",1]]))%>  
     <%= whereobj.label :value %>
-    <%= whereobj.text_field(:value) %>
-    <%= whereobj.link_to_remove "Remove this Join" %>
+    <%= whereobj.text_field(:value , :value => 0) %>
+    <%= whereobj.link_to_remove "Remove this where condition" %>
   <% end %>
 
   
-  <p><%= f.link_to_add "Add a Join", :wheretables %></p>
+  <p><%= f.link_to_add "Add a where condition", :wheretables %></p>
+
+  <h1>Group By Condition</h1>
+  <h1>Having Condition</h1>
+  <h1>Select Condition</h1>
 <% end %>

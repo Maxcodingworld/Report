@@ -61,11 +61,12 @@ $(document).on('nested:fieldAdded:jointables', function(click){
 
 
 $(document).on('nested:fieldAdded:wheretables', function(click){
+	arroftables.push($('#report_maintable_attributes_table').find("option:selected").text());
 	if($('.table_attribute').size() == 1)
 	{
 		arroftables.push($('.table2').last().val());
 	}
-	console.log(arroftables);
+		arroftables = arroftables.unique();
 	$.get('/reports/attributes?table_name='+arroftables,function(data){
 	    	$('.table_attribute').last().html(data);
 	   	});
