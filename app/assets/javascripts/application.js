@@ -56,6 +56,7 @@ $(document).on('nested:fieldAdded:jointables', function(click){
 	    	$('.table2').last().html(data);
 	   	});
 	});
+
 	
 });
 
@@ -66,12 +67,32 @@ $(document).on('nested:fieldAdded:wheretables', function(click){
 	{
 		arroftables.push($('.table2').last().val());
 	}
-		arroftables = arroftables.unique();
+	arroftables = arroftables.unique();
+
 	$.get('/reports/attributes?table_name='+arroftables,function(data){
 	    	$('.table_attribute').last().html(data);
-	   	});
+	});
 });
 
 
-
-
+$(document).on('nested:fieldAdded:grouptables', function(click){
+	arroftables.push($('#report_maintable_attributes_table').find("option:selected").text());
+	if($('.table').size() == 1 && $('.table2').size() > 0)
+	{
+		arroftables.push($('.table2').last().val());
+	}
+	arroftables = arroftables.unique();
+	for(var i=0;i<arroftables.length;i++)
+	{
+		$('.table').last().append($('<option>', {
+	    value: arroftables[i],
+	    text: arroftables[i]
+	     }));
+	}
+	$('.table').change(function(){
+		$.get('/reports/attributes?table_name='+$(this).val(),function(data){
+		    	$('.group_table_attribute').last().html(data);
+		});	
+	});
+	
+});

@@ -12,7 +12,7 @@
     <%= joinobj.label :table1 %>
     <%= joinobj.select(:table1 , options_for_select(['table']),{},{:class => "table1"}) %>
     <%= joinobj.label :table2 %>
-    <%= joinobj.select(:id,options_for_select(['associated tables']),{},{:class =>"table2"}) %>
+    <%= joinobj.select(:table2,options_for_select(['associated tables']),{},{:class =>"table2"}) %>
     <%= joinobj.label :table2 %>
     <%= joinobj.select(:whichjoin,options_for_select([["Inner Join","INNER JOIN"],["Left Outer Join","LEFT OUTER JOIN"],["Right Outer Join","RIGHT OUTER JOIN"]])) %>
     <%= joinobj.link_to_remove "Remove this Join" %>
@@ -24,8 +24,7 @@
     <%= whereobj.select(:table_attribute , options_for_select(['attributes']),{},{:class => "table_attribute"}) %>
     <%= whereobj.label :r_operator %>
     <%= whereobj.select(:r_operator,options_for_select([["operator","operator"],[">","Greater than"],["<","Lesser"],
-      ["!=","not_equal"],["=","equal"],[">=","g_than_e"],["<=","l_than_e"],["!<","not_less_than"],
-      ["!>","not_greater_than"]]),{},{:class =>"r_operator"}) %>
+      ["!=","not_equal"],["=","equal"],[">=","g_than_e"],["<=","l_than_e"]]),{},{:class =>"r_operator"}) %>
     <%= whereobj.label :expo_default_flag %>  
     <%= whereobj.select(:expo_default_flag,options_for_select([["No_Expose",0],["Expose_with_default_value" ,2],["Expose_without_default_value",1]]))%>  
     <%= whereobj.label :value %>
@@ -36,7 +35,18 @@
   
   <p><%= f.link_to_add "Add a where condition", :wheretables %></p>
 
-  <h1>Group By Condition</h1>
+ <h1>Group By Condition</h1>
+<%= f.fields_for :grouptables do |groupobj| %>
+    <%= groupobj.label :table %>
+    <%= groupobj.select(:table_attribute , options_for_select(['table']),{},{:class => "table"}) %>
+    <%= groupobj.label :table_attribute %>
+    <%= groupobj.select(:table_attribute , options_for_select(['attributes']),{},{:class => "group_table_attribute"}) %>
+    <%= groupobj.link_to_remove "Remove this where condition" %>
+  <% end %>
+
+  
+  <p><%= f.link_to_add "Add a where condition", :grouptables %></p>
+
   <h1>Having Condition</h1>
   <h1>Select Condition</h1>
 <% end %>
