@@ -3,14 +3,12 @@ class ReportsController < ApplicationController
 	def new
 	  @report = Report.new
 	  @report.maintable = Maintable.new
-	  # @report.jointables << Jointable.new
-	  @all_tables = Admin.tables_model_hash
-	  # @all_associations = Admin.all_associations(table)
+	  @all_tables = Admin.tables_model_hash.keys
    	end
 
 	def create
 		reportobj = Report.new(params[:report])
-			if reportobj.save
+			if reportobj.save!
 				flash[:notice] = "Report successfully saved"
 				redirect_to reports_path
 			else
