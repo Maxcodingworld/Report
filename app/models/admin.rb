@@ -17,6 +17,11 @@ class Admin < ActiveRecord::Base
     hash  
   end
 
+
+  def self.attribute_type(table_attribute)
+    table_attribute.split('.').first.classify.constantize.columns_hash[table_attribute.split('.').last].type.to_s
+  end
+
   def self.modal_to_table(modal1)
     modal1.classify.constantize.table_name
   end

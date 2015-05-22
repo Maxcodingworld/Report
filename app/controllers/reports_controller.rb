@@ -53,5 +53,4 @@ class ReportsController < ApplicationController
 		end
 		render :text => options
 	end
-
 end
