@@ -116,7 +116,8 @@ class Admin < ActiveRecord::Base
 
 #calling filters method
   def self.where_operation(joined_table,reportobj)
-    wherestr = wherestrcollect(reportobj)
+    wherestr = ''
+    wherestr = wherestrcollect(reportobj) if reportobj.wheretables.present?
     after_where = filters(joined_table,wherestr)
   end
 
@@ -141,8 +142,9 @@ class Admin < ActiveRecord::Base
 
 #calling group_having method
   def self.group_having_operations(after_where,reportobj)
+    havingstr = ''
     groupstr = groupstrcollect(reportobj)
-    havingstr = havingstrcollect(reportobj)
+    havingstr = havingstrcollect(reportobj) if reportobj.havingtables.present?
     after_group_having = group_having(groupstr,havingstr,after_where)
   end
   
