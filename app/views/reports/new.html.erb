@@ -55,8 +55,8 @@
     <%= havingobj.label :Aggregate_Function %>
     <%= havingobj.select(:table_attribute , options_for_select(['aggregate_function']),{},{:class => "having_aggregate_function"}) %>
     <%= havingobj.label :r_operator %>
-    <%= havingobj.select(:r_operator,options_for_select([["operator","operator"],[">","Greater than"],["<","Lesser"],
-      ["!=","not_equal"],["=","equal"],[">=","g_than_e"],["<=","l_than_e"]]),{},{:class =>"r_operator"}) %>
+    <%= havingobj.select(:r_operator,options_for_select([["operator","operator"],[">",">"],["<","<"],
+      ["!=","!="],["=","="],[">=",">="],["<=","<="]]),{},{:class =>"r_operator"}) %>
     <%= havingobj.label :expo_default_flag %>  
     <%= havingobj.select(:expo_default_flag,options_for_select([["No_Expose",0],["Expose_with_default_value" ,2],["Expose_without_default_value",1]]))%>  
     <%= havingobj.label :value %>

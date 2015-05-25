@@ -23,6 +23,7 @@ class ReportsController < ApplicationController
 	end
 
 	def show
+		render :json =>Admin.retrive_data(params[:id])
 	end
 	
 	def association
