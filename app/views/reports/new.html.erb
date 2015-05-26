@@ -7,6 +7,7 @@
     <%= mainobj.label :Table %>
     <%= mainobj.select(:table,options_for_select(@all_tables)) %>
   <% end %>
+  
   <h1>Join Condition</h1>
   <%= f.fields_for :jointables do |joinobj| %>
     <%= joinobj.label :table1 %>
@@ -32,8 +33,7 @@
     <%= whereobj.link_to_remove "Remove this where condition" %>
   <% end %>
 
-  
-  <p><%= f.link_to_add "Add a where condition", :wheretables %></p>
+    <p><%= f.link_to_add "Add a where condition", :wheretables %></p>
 
  <h1>Group By Condition</h1>
 <%= f.fields_for :grouptables do |groupobj| %>
