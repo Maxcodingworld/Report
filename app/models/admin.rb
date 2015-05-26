@@ -182,15 +182,16 @@ class Admin < ActiveRecord::Base
     end
   
 
-    def selectinfo(reportobj,info)
+    def selectinfo(reportobj)
+      info=[]
       if reportobj.selecttables.present?
         reportobj.selecttables.each do |x|
-          info["expected_values"] << x.table_attribute
+          info << x.table_attribute
         end  
       else
         table = reportobj.maintable.table
         table.classify.constantize.column_names.each do |x|
-          info["expected_values"] << table + "." + x
+          info << table + "." + x
         end
       end
       info
@@ -199,27 +200,37 @@ class Admin < ActiveRecord::Base
     def wher_hav_info(x)
       if x.expo_default_flag != '0'
         temp = {}
-        temp[x.table_attribute.split(".").first] = x.table_attribute.split(".").last
+        temp["table"] = x.table_attribute.split(".").first.split('(').last
+        temp["attribute"]= x.table_attribute.split(".").last.split(')').first
         temp["default"] = nil
         temp["default"] = x.value if x.expo_default_flag == '2'
         temp["operator"] = x.r_operator
+        temp["label"] = "Empty"
+        temp["which_table"] = "Empty"
+        temp["which_Field"] = "Empty"
       end
       temp
     end
 
-    def whereinfo(reportobj,info)
+    def whereinfo(reportobj)
+      info = []
       if reportobj.wheretables.present?
         reportobj.wheretables.each do |x|
-         info["exposed_where_values"] << wher_hav_info(x)   
+         info << wher_hav_info(x)   
         end 
       end
       info
     end
     
     def havinginfo(reportobj,info)
+      info = []
+      agg = ["sum","max","min","avg","count"]
       if reportobj.havingtables.present?
         reportobj.havingtables.each do |x|
-          info["exposed_having_values"] << wher_hav_info(x) 
+          info << wher_hav_info(x) 
+          info.last["aggregate"]=nil
+          temp = x.table_attribute.split('(').first
+          info.last["aggregate"] = temp if agg.include?(temp)
         end  
       end
       info
@@ -233,9 +244,10 @@ class Admin < ActiveRecord::Base
       info["expected_values"] = []
       info["exposed_where_values"] = []
       info["exposed_having_values"] = []
-      info = selectinfo(reportobj,info)
-      info = whereinfo(reportobj,info)
-      info = havinginfo(reportobj,info)
+      info["expected_values"] = selectinfo(reportobj)
+      info["exposed_where_values"] = whereinfo(reportobj)
+      info["exposed_having_values"] = havinginfo(reportobj,info)
+      info
     end
   end
 end

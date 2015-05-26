@@ -3,5 +3,5 @@
 /log/*.log
 /tmp
 /.rvmrc
-/config/*.yml
+/config/database.yml
 
