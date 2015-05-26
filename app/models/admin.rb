@@ -105,20 +105,22 @@ class Admin < ActiveRecord::Base
     def wherestrcollect(reportobj,exposed)
       wherestr = []
       wherestr[0]=""
+      exposed = {} if exposed == nil
       reportobj.wheretables.each do |x|
+         next if x.expo_default_flag == '1' and exposed[x.table_attribute] == nil
          wherestr[0] << x.table_attribute + " " + x.r_operator + " " + "?" + "and"
          wherestr << x.value if x.expo_default_flag == '0'
-         wherestr << exposed[x.table_attribute] if x.expo_default_flag == '1'
-         wherestr << x.value if x.expo_default_flag == '2' and exposed[x.table_attribute] == nil
-         wherestr << exposed[x.table_attribute] if x.expo_default_flag == '2' and exposed[x.table_attribute] != nil
+         wherestr << exposed[x.table_attribute] if x.expo_default_flag == '1' 
+         wherestr << x.value if x.expo_default_flag == '2' and exposed[x.table_attribute] == nil 
+         wherestr << exposed[x.table_attribute] if x.expo_default_flag == '2' and exposed[x.table_attribute] != nil 
       end
       wherestr[0] = wherestr[0][0..wherestr[0].length-4]
+      return '' if wherestr[0].empty?
       wherestr
     end
 
   #calling filters method
     def where_operation(joined_table,reportobj,exposed)
-      wherestr = ''
       wherestr = wherestrcollect(reportobj,exposed) if reportobj.wheretables.present?
       after_where = filters(joined_table,wherestr)
     end
@@ -134,7 +136,9 @@ class Admin < ActiveRecord::Base
     def havingstrcollect(reportobj,exposed)
       havingstr=[]
       havingstr[0] = ""
+      exposed = {} if exposed == nil
       reportobj.havingtables.each do |x|
+         next if x.expo_default_flag == '1' and exposed[x.table_attribute] == nil
          havingstr[0] << x.table_attribute + " " + x.r_operator + " " + "?" + "and"
          havingstr << x.value if x.expo_default_flag == '0'
          havingstr << exposed[x.table_attribute] if x.expo_default_flag == '1'
@@ -142,12 +146,12 @@ class Admin < ActiveRecord::Base
          havingstr << exposed[x.table_attribute] if x.expo_default_flag == '2' and exposed[x.table_attribute] != nil
       end
       havingstr[0] = havingstr[0][0..havingstr[0].length-4]
+      return '' if havingstr[0].empty?
       havingstr
     end   
 
   #calling group_having method
     def group_having_operations(after_where,reportobj,exposed)
-      havingstr = ''
       groupstr = groupstrcollect(reportobj)
       havingstr = havingstrcollect(reportobj,exposed) if reportobj.havingtables.present?
       after_group_having = group_having(groupstr,havingstr,after_where)
@@ -168,14 +172,70 @@ class Admin < ActiveRecord::Base
     end
 
   #calling retrive_data
-    def retrive_data(id,exposed)
+    def retrive_data(id,wherehash,havinghash)
       reportobj=Report.find(id.to_i)
       return "Error report doesnot get saved" if id == nil
-      
       joined_table = join_order_operation(reportobj)                       # Joining of tables and ordering of table
-      after_where  = where_operation(joined_table,reportobj,exposed["where"])               # appling filters on table
-      after_group_having = group_having_operations(after_where,reportobj,exposed["having"])  # appling group by and having 
+      after_where  = where_operation(joined_table,reportobj,wherehash)               # appling filters on table
+      after_group_having = group_having_operations(after_where,reportobj,havinghash)  # appling group by and having 
       after_select = select_operation(after_group_having,reportobj)        # appling select operation
+    end
+  
+
+    def selectinfo(reportobj,info)
+      if reportobj.selecttables.present?
+        reportobj.selecttables.each do |x|
+          info["expected_values"] << x.table_attribute
+        end  
+      else
+        table = reportobj.maintable.table
+        table.classify.constantize.column_names.each do |x|
+          info["expected_values"] << table + "." + x
+        end
+      end
+      info
+    end
+    
+    def wher_hav_info(x)
+      if x.expo_default_flag != '0'
+        temp = {}
+        temp[x.table_attribute.split(".").first] = x.table_attribute.split(".").last
+        temp["default"] = nil
+        temp["default"] = x.value if x.expo_default_flag == '2'
+        temp["operator"] = x.r_operator
+      end
+      temp
+    end
+
+    def whereinfo(reportobj,info)
+      if reportobj.wheretables.present?
+        reportobj.wheretables.each do |x|
+         info["exposed_where_values"] << wher_hav_info(x)   
+        end 
+      end
+      info
+    end
+    
+    def havinginfo(reportobj,info)
+      if reportobj.havingtables.present?
+        reportobj.havingtables.each do |x|
+          info["exposed_having_values"] << wher_hav_info(x) 
+        end  
+      end
+      info
+    end 
+
+
+    def information(id)
+      reportobj =Report.find(id.to_i)
+      info = {}  
+      info["discription"] = reportobj.description
+      info["expected_values"] = []
+      info["exposed_where_values"] = []
+      info["exposed_having_values"] = []
+      info = selectinfo(reportobj,info)
+      info = whereinfo(reportobj,info)
+      info = havinginfo(reportobj,info)
     end
   end
 end
