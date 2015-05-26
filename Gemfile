@@ -27,4 +27,5 @@ group :development, :test do
  gem 'guard'
  gem 'guard-cucumber'
  gem 'database_cleaner'
+ gem 'sqlite3'
 end
