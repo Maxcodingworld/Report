@@ -7,6 +7,7 @@ class HomeController < ApplicationController
   def show_report
   	@report_data = Admin.information(params[:id])
   	@report_op = Admin.retrive_data(params[:id],params["where"]||{},params["having"]||{})
+
   end
 end
 
