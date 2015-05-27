@@ -26,7 +26,7 @@
     <%= whereobj.label :r_operator %>
     <%= whereobj.select(:r_operator,options_for_select([["operator","operator"],[">",">"],["<","<"],
       ["!=","!="],["=","="],[">=",">="],["<=","<="]]),{},{:class =>"r_operator"}) %>
-    <%= whereobj.label :expo_default_flag %>  
+    <%= whereobj.label :expo_default_flag %>
     <%= whereobj.select(:expo_default_flag,options_for_select([["No_Expose",0],["Expose_with_default_value" ,2],["Expose_without_default_value",1]]))%>  
     <%= whereobj.label :value %>
     <%= whereobj.text_field(:value , :value => 0) %>
@@ -58,7 +58,7 @@
     <%= havingobj.select(:r_operator,options_for_select([["operator","operator"],[">",">"],["<","<"],
       ["!=","!="],["=","="],[">=",">="],["<=","<="]]),{},{:class =>"r_operator"}) %>
     <%= havingobj.label :expo_default_flag %>  
-    <%= havingobj.select(:expo_default_flag,options_for_select([["No_Expose",0],["Expose_with_default_value" ,2],["Expose_without_default_value",1]]))%>  
+    <%= havingobj.select(:expo_default_flag,options_for_select([["No Expose",0],["Expose with default value" ,2],["Expose without default value",1]]))%>  
     <%= havingobj.label :value %>
     <%= havingobj.text_field(:value , :value => 0) %>
     <%= havingobj.link_to_remove "Remove" %>
@@ -87,7 +87,7 @@
     <%= orderobj.label :DESC_ASCE %>
     <%= orderobj.select(:desc_asce , options_for_select([["DESC_ASCE",""],["Ascending","ASC"],["Descending","DESC"]]),{},{:class => "asc_des"}) %>
     <%= orderobj.label :expo_default_flag %>  
-    <%= orderobj.select(:expo_default_flag,options_for_select([["No_Expose",0],["Expose_with_default_value" ,2],["Expose_without_default_value",1]]))%>
+    <%= orderobj.select(:expo_default_flag,options_for_select([["No Expose",0],["Expose With Default Value" ,2],["Expose Without Default Value",1]]))%>
     <%= orderobj.link_to_remove "Remove this order by" %>
   <% end %>
 

@@ -2,6 +2,10 @@ Bboard::Application.routes.draw do
 
 
 
+  get "/home" => "home#index"
+
+  match "show_report"  => "home#show_report"
+
 root :to => 'order_reports#choose'
 
 resources :reports do
