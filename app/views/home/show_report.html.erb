@@ -7,11 +7,12 @@
 			<% 
 				temp = "#{where_cdn['table']}.#{where_cdn['attribute']}" 
 				key = 'where['+temp+']'
+				selected_val = params["where"][temp] rescue nil
 			%>
 			<% if where_cdn["which_table"].present? %>
-				<%= select_tag key , options_for_select(populate_list(where_cdn["which_table"],where_cdn["which_feild"],where_cdn["which_feild_to_show"]),params["where"][temp]) %>
+				<%= select_tag key , options_for_select(populate_list(where_cdn["which_table"],where_cdn["which_field"],where_cdn["which_field_to_show"]),selected_val) %>
 			<% else %>
-				<%= text_field_tag key,params["where"][temp] %>
+				<%= text_field_tag key,selected_val %>
 			<% end %>
 		<% end %>
 		<br/>
@@ -20,11 +21,13 @@
 			<% 
 				temp = "#{having['table']}.#{having['attribute']}" 
 				key = 'having['+temp+']'
+				selected_val = params["having"][temp] rescue nil
 			%>
 			<% if having["which_table"].present? %>
-				<%= select_tag key , options_for_select(populate_list(having["which_table"],having["which_feild"],having["which_feild_to_show"]),params["having"][temp]) %>
+
+				<%= select_tag key , options_for_select(populate_list(having["which_table"],having["which_field"],having["which_field_to_show"]),selected_val) %>
 			<% else %>
-				<%= text_field_tag key,params["having"][temp] %>
+				<%= text_field_tag key,selected_val %>
 			<% end %>
 		<% end %>
 		<br/>

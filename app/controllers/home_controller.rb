@@ -9,10 +9,10 @@ class HomeController < ApplicationController
   		"expected_values" => ["name"],
   		"exposed_where_values" => [
         {
-      		"table" => "etl_circulations", "attribute" => "branch_id", "label" => "Branch", "which_table" => "etl_branches", "which_feild_to_show" => "name", "which_feild" => "id"
+      		"table" => "etl_circulations", "attribute" => "branch_id", "label" => "Branch", "which_table" => "etl_branches", "which_field_to_show" => "name", "which_field" => "id"
       	},
         {
-          "table" => "etl_circulations", "attribute" => "plan_id", "label" => "Plan", "which_table" => "etl_plans", "which_feild_to_show" => "name", "which_feild" => "id"
+          "table" => "etl_circulations", "attribute" => "plan_id", "label" => "Plan", "which_table" => "etl_plans", "which_field_to_show" => "name", "which_field" => "id"
         },
         {
           "table" => "etl_circulations", "attribute" => "membership_no", "label" => "Membership No"
