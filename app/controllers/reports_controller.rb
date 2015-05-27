@@ -18,8 +18,9 @@ class ReportsController < ApplicationController
 	end
 
 	def index
-    report_id = params[:id]
-    result = Admin.retrive_data(params[:id])
+    # report_id = params[:id]
+    # result = Admin.retrive_data(params[:id])
+    redirect_to home_path
 	end
 
 	def show
