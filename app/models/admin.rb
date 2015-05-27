@@ -60,7 +60,7 @@ class Admin < ActiveRecord::Base
 
   #Feature 2
     def select_attr(stage1,selectstr)
-      stage2=Class.new
+      #stage2=Class.new
       stage2=stage1.select(selectstr)
     end
 
@@ -209,12 +209,12 @@ class Admin < ActiveRecord::Base
         temp = {}
         temp["table"] = x.table_attribute.split(".").first.split('(').last
         temp["attribute"]= x.table_attribute.split(".").last.split(')').first
-        temp["default"] = nil
         temp["default"] = x.value if x.expo_default_flag == '2'
         temp["operator"] = x.r_operator
-        temp["label"] = "Empty"
-        temp["which_table"] = "Empty"
-        temp["which_Field"] = "Empty"
+        temp["label"] = nil
+        temp["which_table"] = nil
+        temp["which_field"] = nil
+        temp["which_field_to_show"] = nil
       end
       temp
     end
@@ -223,7 +223,8 @@ class Admin < ActiveRecord::Base
       info = []
       if reportobj.wheretables.present?
         reportobj.wheretables.each do |x|
-         info << wher_hav_info(x)   
+         temp = wher_hav_info(x)
+         info << temp if temp.present?   
         end 
       end
       info
@@ -234,7 +235,8 @@ class Admin < ActiveRecord::Base
       agg = ["sum","max","min","avg","count"]
       if reportobj.havingtables.present?
         reportobj.havingtables.each do |x|
-          info << wher_hav_info(x) 
+          tem =  wher_hav_info(x)
+          info << tem if tem.present? 
           info.last["aggregate"]=nil
           temp = x.table_attribute.split('(').first
           info.last["aggregate"] = temp if agg.include?(temp)
@@ -247,7 +249,7 @@ class Admin < ActiveRecord::Base
     def information(id)
       reportobj =Report.find(id.to_i)
       info = {}  
-      info["discription"] = reportobj.description
+      info["description"] = reportobj.description
       info["expected_values"] = []
       info["exposed_where_values"] = []
       info["exposed_having_values"] = []

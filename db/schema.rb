@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150527064134) do
+ActiveRecord::Schema.define(:version => 20150527072253) do
 
   create_table "batches", :force => true do |t|
     t.string   "batch_file",   :null => false
@@ -39,23 +39,23 @@ ActiveRecord::Schema.define(:version => 20150527064134) do
   end
 
   create_table "etl_circulations", :force => true do |t|
-    t.integer  "member_plan_id"
-    t.integer  "title_id"
-    t.date     "issue_date"
-    t.date     "return_date"
-    t.integer  "rent_duration"
-    t.integer  "issue_branch_id"
-    t.integer  "created_at_in_second"
-    t.integer  "updated_at_in_second"
-    t.integer  "author_id"
+    t.integer  "member_plan_id",       :precision => 38, :scale => 0
+    t.integer  "title_id",             :precision => 38, :scale => 0
+    t.datetime "issue_date"
+    t.datetime "return_date"
+    t.integer  "rent_duration",        :precision => 38, :scale => 0
+    t.integer  "issue_branch_id",      :precision => 38, :scale => 0
+    t.integer  "created_at_in_second", :precision => 38, :scale => 0
+    t.integer  "updated_at_in_second", :precision => 38, :scale => 0
+    t.integer  "author_id",            :precision => 38, :scale => 0
     t.string   "category_type"
     t.string   "category_name"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
     t.string   "author_name"
-    t.integer  "plan_id"
-    t.integer  "branch_id"
-    t.integer  "member_profile_id"
+    t.integer  "plan_id",              :precision => 38, :scale => 0
+    t.integer  "branch_id",            :precision => 38, :scale => 0
+    t.integer  "member_profile_id",    :precision => 38, :scale => 0
   end
 
   create_table "etl_ibtr_versions", :force => true do |t|
@@ -72,15 +72,15 @@ ActiveRecord::Schema.define(:version => 20150527064134) do
 
   create_table "etl_infos", :force => true do |t|
     t.string   "table_name"
-    t.integer  "last_etl_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "last_etl_id", :precision => 38, :scale => 0
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
   end
 
   create_table "etl_member_plans", :force => true do |t|
-    t.integer "branch_id"
-    t.integer "plan_id"
-    t.integer "member_profile_id"
+    t.integer "branch_id",         :precision => 38, :scale => 0
+    t.integer "plan_id",           :precision => 38, :scale => 0
+    t.integer "member_profile_id", :precision => 38, :scale => 0
   end
 
   create_table "etl_member_profile_infos", :force => true do |t|
@@ -93,15 +93,15 @@ ActiveRecord::Schema.define(:version => 20150527064134) do
   end
 
   create_table "etl_returns", :force => true do |t|
-    t.integer  "member_plan_id"
-    t.date     "issue_date"
-    t.date     "return_date"
-    t.integer  "rent_duration"
-    t.integer  "issue_branch_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-    t.integer  "title_id"
-    t.date     "custom"
+    t.integer  "member_plan_id",  :precision => 38, :scale => 0
+    t.datetime "issue_date"
+    t.datetime "return_date"
+    t.integer  "rent_duration",   :precision => 38, :scale => 0
+    t.integer  "issue_branch_id", :precision => 38, :scale => 0
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
+    t.integer  "title_id",        :precision => 38, :scale => 0
+    t.datetime "custom"
   end
 
   create_table "etl_titles", :force => true do |t|
@@ -111,22 +111,23 @@ ActiveRecord::Schema.define(:version => 20150527064134) do
   end
 
   create_table "grouptables", :force => true do |t|
-    t.integer  "report_id"
+    t.integer  "report_id",       :precision => 38, :scale => 0
     t.string   "table_attribute"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
   end
 
   create_table "havingtables", :force => true do |t|
-    t.integer  "report_id"
+    t.integer  "report_id",           :precision => 38, :scale => 0
     t.string   "table_attribute"
     t.string   "r_operator"
     t.string   "value"
     t.string   "expo_default_flag"
-    t.datetime "created_at",:null => false
-    t.datetime "updated_at",:null => false
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
     t.string   "which_table"
     t.string   "which_field"
+    t.string   "which_field_to_show"
   end
 
   create_table "jobs", :force => true do |t|
@@ -140,54 +141,54 @@ ActiveRecord::Schema.define(:version => 20150527064134) do
   add_index "jobs", ["batch_id"], :name => "index_jobs_on_batch_id"
 
   create_table "jointables", :force => true do |t|
-    t.integer  "report_id"
+    t.integer  "report_id",  :precision => 38, :scale => 0
     t.string   "table1"
     t.string   "table2"
     t.string   "whichjoin"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
   create_table "maintables", :force => true do |t|
-    t.integer  "report_id"
+    t.integer  "report_id",  :precision => 38, :scale => 0
     t.string   "table"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
   create_table "mem_reports", :force => true do |t|
-    t.integer  "branch_id"
-    t.integer  "plan_id"
-    t.integer  "to_book"
-    t.integer  "from_book"
-    t.date     "to_date"
-    t.date     "from_date"
+    t.integer  "branch_id",  :precision => 38, :scale => 0
+    t.integer  "plan_id",    :precision => 38, :scale => 0
+    t.integer  "to_book",    :precision => 38, :scale => 0
+    t.integer  "from_book",  :precision => 38, :scale => 0
+    t.datetime "to_date"
+    t.datetime "from_date"
     t.string   "day_limit"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
   create_table "ordertables", :force => true do |t|
-    t.integer  "report_id"
+    t.integer  "report_id",         :precision => 38, :scale => 0
     t.string   "table_attribute"
     t.string   "desc_asce"
     t.string   "expo_default_flag"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
   end
 
   create_table "reports", :force => true do |t|
     t.string   "description"
-    t.integer  "invoke_times"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.integer  "invoke_times", :precision => 38, :scale => 0
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
   end
 
   create_table "selecttables", :force => true do |t|
-    t.integer  "report_id"
+    t.integer  "report_id",       :precision => 38, :scale => 0
     t.string   "table_attribute"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
   end
 
   create_table "temp2ibtrves", :force => true do |t|
@@ -215,16 +216,16 @@ ActiveRecord::Schema.define(:version => 20150527064134) do
   end
 
   create_table "wheretables", :force => true do |t|
-    t.integer  "report_id"
+    t.integer  "report_id",           :precision => 38, :scale => 0
     t.string   "table_attribute"
     t.string   "r_operator"
     t.string   "value"
     t.string   "expo_default_flag"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
     t.string   "which_field"
     t.string   "which_table"
-
+    t.string   "which_field_to_show"
   end
 
 end
