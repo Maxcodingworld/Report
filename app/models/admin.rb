@@ -2,7 +2,7 @@ class Admin < ActiveRecord::Base
   class << self
     def tables_model_hash
       Rails.application.eager_load!	 
-      Hash[ActiveRecord::Base.descendants.collect{|c| [c.table_name, c.name] unless c.accessible_attributes.empty?}]
+      Hash[ActiveRecord::Base.descendants.collect{|c| [c.table_name, c.name] unless c.accessible_attributes.empty?}].except("reports","jointables","selecttables","wheretables","ordertables","grouptables","havingtables","maintables")
   	end
 
     def all_attributes(table)
@@ -48,8 +48,16 @@ class Admin < ActiveRecord::Base
       tablehash = tables_model_hash
       asso1 = reflection_betn_two_tables(tablehash[table1.pluralize],table2).macro.to_s
       asso2 = reflection_betn_two_tables(tablehash[table2.pluralize],table1).macro.to_s
-      attrr1 = "id" if (attrr1 = reflection_betn_two_tables(tablehash[table1.pluralize],table2).options[:foreign_key]) == nil
-      attrr2 = "id" if (attrr2 = reflection_betn_two_tables(tablehash[table2.pluralize],table1).options[:foreign_key]) == nil
+      if (asso1 == "has_many") or (asso1 == "has_one")
+        attrr2 = reflection_betn_two_tables(tablehash[table2.pluralize],table1).foreign_key
+      end
+      if (asso2 == "has_many") or (asso2 == "has_one")
+        attrr1 = reflection_betn_two_tables(tablehash[table1.pluralize],table2).foreign_key
+      end
+      attrr2 = "id" if asso1 == "belongs_to"
+      attrr1 = "id" if asso2 == "belongs_to"
+      attrr2 = "id" if attrr2 == nil
+      attrr1 = "id" if attrr2 == nil
       return flag == 1 ? " #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}" : ", #{table1.pluralize} #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}"
     end
 
@@ -59,7 +67,7 @@ class Admin < ActiveRecord::Base
     end
 
   #Feature 2
-    def select_attr(stage1,selectstr)
+    def select_attr(stage1,selectstr) 
       stage2=Class.new
       stage2=stage1.pluck_details(selectstr)
     end
@@ -167,7 +175,11 @@ class Admin < ActiveRecord::Base
   #collect full selectstr into one
     def selectstrcollect(reportobj)
       selectstr = ""
-      reportobj.selecttables.collect { |x| selectstr << x.table_attribute + "," }
+      reportobj.selecttables.each do |x| 
+        tempstr =  '"' + x.table_attribute.split(".").first + "-" + x.table_attribute.split(".").last + '"'
+        tempstr = x.label if x.label.present? 
+        selectstr << x.table_attribute + " as " + tempstr + ","
+      end
       selectstr = selectstr[0..selectstr.length-2] if selectstr.length > 2
     end 
 

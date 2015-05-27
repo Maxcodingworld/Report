@@ -50,7 +50,8 @@
 		<tr>
 			<%- @report_data["expected_values"].each do |value| %>
 				<td>	
-					<%= op[value] %>
+					<%= op[value.split(".").first + "-" + value.split(".").last] %>
+					<%= op[value.split(".").last] %>
 				</td>
 			<% end %>
 		</tr>

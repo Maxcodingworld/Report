@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150527072253) do
+ActiveRecord::Schema.define(:version => 20150527103842) do
 
   create_table "batches", :force => true do |t|
     t.string   "batch_file",   :null => false
@@ -189,6 +189,7 @@ ActiveRecord::Schema.define(:version => 20150527072253) do
     t.string   "table_attribute"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
+    t.string   "label"
   end
 
   create_table "temp2ibtrves", :force => true do |t|

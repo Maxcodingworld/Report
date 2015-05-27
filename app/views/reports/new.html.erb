@@ -71,7 +71,7 @@
       
     <%= selectobj.label :table_attribute %>
     <%= selectobj.select(:table_attribute , options_for_select(['attributes']),{},{:class => "select_table_attribute"}) %>
-    <%= selectobj.label :Aggregate_Function %>
+    <%= selectobj.label :Aggregate_Function ,:class => "agg_function" %>
     <%= selectobj.select(:table_attribute , options_for_select(['select_aggregate_function']),{},{:class => "select_aggregate_function"}) %>
     <%= selectobj.link_to_remove "Remove this select condition" %>
   <% end %>

@@ -146,6 +146,12 @@ $('.having_aggregate_function').eq($('.having_aggregate_function').size() - 1).f
 
 $(document).on('nested:fieldAdded:selecttables', function(click){
 
+	if($('.table').size() == 0)
+	{
+	    $('.select_aggregate_function').remove();
+	   	$('.agg_function').remove();
+	}
+
 	arroftables.push($('#report_maintable_attributes_table').find("option:selected").text());
 	if($('.select_table_attribute').size() == 1 && $('.table2').size() > 0)
 	{
