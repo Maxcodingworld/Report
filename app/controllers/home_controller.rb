@@ -18,9 +18,7 @@ class HomeController < ApplicationController
           "table" => "etl_circulations", "attribute" => "membership_no", "label" => "Membership No"
         }
       ],
-      "exposed_having_values" => [{
-          "table" => "etl_circulations", "attribute" => "issue_branch_id", "label" => "Branch Issued More than * books"
-        }]
+      "exposed_having_values" => nil
     }#Admin.information(params[:id])
   	@report_op = [{"name" => 'pollo'},{"name" => 'josh'}]#Admin.retrive_data(params[:id],params["where"]||{},params["having"]||{})
   end

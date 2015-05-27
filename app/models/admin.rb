@@ -61,7 +61,7 @@ class Admin < ActiveRecord::Base
   #Feature 2
     def select_attr(stage1,selectstr)
       stage2=Class.new
-      stage2=stage1.select(selectstr)
+      stage2=stage1.pluck_details(selectstr)
     end
 
   #Feature 3

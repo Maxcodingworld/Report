@@ -16,7 +16,7 @@
 			<% end %>
 		<% end %>
 		<br/>
-		<%- @report_data["exposed_having_values"].each do |having| %>
+		<%- @report_data["exposed_having_values"] || [].each do |having| %>
 			<b><%= having["label"] %></b>
 			<% 
 				temp = "#{having['table']}.#{having['attribute']}" 
