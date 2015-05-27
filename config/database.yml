@@ -4,10 +4,11 @@
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
 development:
-  adapter: sqlite3
-  database: db/development.sqlite3
-  pool: 5
-  timeout: 5000
+  adapter: oracle_enhanced
+  database: XE
+  username: bboard
+  password: bboard
+
 
 test:
   adapter: oracle_enhanced
