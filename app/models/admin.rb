@@ -16,6 +16,13 @@ class Admin < ActiveRecord::Base
       table.classify.constantize.reflections.keys.collect {|c| hash[table.classify.constantize.reflections[c].macro] << c }
       hash  
     end
+    
+    def table_relation_table_and_attributes(table,attrr1)
+      temp = table.classify.constantize.reflections
+      temp.keys.each do |x|
+        return [x,x.to_s.classify.constantize.column_names] if temp[x].foreign_key == attrr1
+      end
+    end
 
     def attribute_type(table_attribute)
       table_attribute.split('.').first.classify.constantize.columns_hash[table_attribute.split('.').last].type.to_s
