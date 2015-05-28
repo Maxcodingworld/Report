@@ -4,8 +4,38 @@ class ReportsController < ApplicationController
 	  @report = Report.new
 	  @report.maintable = Maintable.new
 	  @all_tables = Admin.tables_model_hash.keys
-   	end
+  end
 
+  def create_join
+  	@reportjoinobj = Report.new(params[:report])
+  	if @reportjoinobj.save!
+				flash[:notice] = "Report successfully saved"
+				redirect_to operation_reports_path(@reportjoinobj.id)
+			else
+				redirect_to(new_report_path)
+			end
+  end
+
+  def operation
+  	@arr = []
+  	@option = []
+  	 a = params
+  	 @arr << Report.find_by_id(a["format"].to_i).maintable.table
+  	 Report.find_by_id(a["format"].to_i).jointables.each do |x|
+  	 			@arr << x.table1
+  	 			@arr << x.table2
+  	 end
+  	 @arr = @arr.uniq
+	  	 @arr.each do |x|
+  	 	 @option << [x,x] 
+		   categories = Admin.all_attributes(x)
+		   categories.each do |cat|
+				 @option << [cat,x+"."+cat]
+		   end
+		end
+ 	  @reportjoinobj = Report.new()
+ 	  
+  end
 
 	def create
 		reportobj = Report.new(params[:report])
@@ -22,9 +52,9 @@ class ReportsController < ApplicationController
     result = Admin.retrive_data(params[:id])
 	end
 
-	def show
-		render :json =>Admin.retrive_data(params[:id])
-	end
+	# def show
+	# 	# render :json =>Admin.retrive_data(params[:id])
+	# end
 	
 	def association
 	  options = '<option value="">Associated table</option>'
@@ -51,5 +81,9 @@ class ReportsController < ApplicationController
 		   end
 		end
 		render :text => options
+	end
+
+	def moreoperation
+		@optables = params[:optables]
 	end
 end

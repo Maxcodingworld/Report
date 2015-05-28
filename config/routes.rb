@@ -8,6 +8,8 @@ resources :reports do
   collection do
     get 'association'
     get 'attributes'
+    get 'operation' 
+    post 'create_join'
   end
 end
     

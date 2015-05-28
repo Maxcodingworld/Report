@@ -59,16 +59,27 @@ $(document).on('nested:fieldAdded:jointables', function(click){
 
 	
 });
-
+// $(document).ready(function() {
+// 	$(".alltables").click(function(){
+// 		// event.preventDefault();
+// 		arroftables.push($('#report_maintable_attributes_table').find("option:selected").text());
+// 		if($('.table2').size() > 0)
+// 		{
+// 			arroftables.push($('.table2').last().val());
+// 		}
+// 		arroftables = arroftables.unique();
+// 		alert(arroftables);
+// 	});
+// });
 
 $(document).on('nested:fieldAdded:wheretables', function(click){
+
 	arroftables.push($('#report_maintable_attributes_table').find("option:selected").text());
 	if($('.table_attribute').size() == 1 && $('.table2').size() > 0)
 	{
 		arroftables.push($('.table2').last().val());
 	}
 	arroftables = arroftables.unique();
-
 	$.get('/reports/attributes?table_name='+arroftables,function(data){
 	    	$('.table_attribute').last().html(data);
 	});
@@ -82,13 +93,13 @@ $(document).on('nested:fieldAdded:grouptables', function(click){
 		arroftables.push($('.table2').last().val());
 	}
 	arroftables = arroftables.unique();
-	for(var i=0;i<arroftables.length;i++)
-	{
-		$('.table').last().append($('<option>', {
-	    value: arroftables[i],
-	    text: arroftables[i]
-	     }));
-	}
+	// for(var i=0;i<arroftables.length;i++)
+	// {
+	// 	$('.table').last().append($('<option>', {
+	//     value: arroftables[i],
+	//     text: arroftables[i]
+	//      }));
+	// }
 	$('.table').change(function(){
 		$.get('/reports/attributes?table_name='+$(this).val(),function(data){
 		    	$('.group_table_attribute').last().html(data);
@@ -112,9 +123,9 @@ $(document).on('nested:fieldAdded:havingtables', function(click){
 			arrofgroupattribute.push($('.group_table_attribute').eq(i).val());		
 	}
 
-	$.get('/reports/attributes?table_name='+arroftables,function(data){
-	    	$('.having_table_attribute').last().html(data);
-	});
+	// $.get('/reports/attributes?table_name='+arroftables,function(data){
+	//     	$('.having_table_attribute').last().html(data);
+	// });
 
     $('.having_table_attribute').change(function(){
 		arrkeys_values = ["sum","max","min","count","avg"]
@@ -145,7 +156,11 @@ $('.having_aggregate_function').eq($('.having_aggregate_function').size() - 1).f
 
 
 $(document).on('nested:fieldAdded:selecttables', function(click){
-
+if($('.table').size() == 0)
+    	{
+    		$('.select_aggregate_function').hide();
+    		$('.agg_function').hide();
+			}
 	arroftables.push($('#report_maintable_attributes_table').find("option:selected").text());
 	if($('.select_table_attribute').size() == 1 && $('.table2').size() > 0)
 	{

@@ -17,7 +17,6 @@ class Admin < ActiveRecord::Base
     hash  
   end
 
-
   def self.attribute_type(table_attribute)
     table_attribute.split('.').first.classify.constantize.columns_hash[table_attribute.split('.').last].type.to_s
   end
