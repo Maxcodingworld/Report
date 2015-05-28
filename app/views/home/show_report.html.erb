@@ -1,0 +1,64 @@
+<h1> Report >> <%= @report_data["description"] %> </h1>
+<div class="row-fluid">
+	<%= form_tag "/show_report", :method => "get"  do %>
+		<%= hidden_field_tag :id,params[:id] %>
+		<%- @report_data["exposed_where_values"]||[].each do |where_cdn| %>
+			<b><%= where_cdn["label"] %></b>
+			<% 
+				temp = "#{where_cdn['table']}.#{where_cdn['attribute']}" 
+				key = 'where['+temp+']'
+				selected_val = params["where"][temp] rescue nil
+			%>
+			<% if where_cdn["which_table"].present? %>
+				<%= select_tag key , options_for_select(populate_list(where_cdn["which_table"],where_cdn["which_field"],where_cdn["which_field_to_show"]),selected_val) %>
+			<% else %>
+				<%= text_field_tag key,selected_val %>
+			<% end %>
+		<% end %>
+		<br/>
+
+		<%- @report_data["exposed_having_values"] || [].each do |having| %>
+			<b><%= having["label"] %></b>
+			<% 
+				temp = "#{having['table']}.#{having['attribute']}" 
+				key = 'having['+temp+']'
+				selected_val = params["having"][temp] rescue nil
+			%>
+			<% if having["which_table"].present? %>
+
+				<%= select_tag key , options_for_select(populate_list(having["which_table"],having["which_field"],having["which_field_to_show"]),selected_val) %>
+			<% else %>
+				<%= text_field_tag key,selected_val %>
+			<% end %>
+		<% end %>
+		<br/>
+		<%= submit_tag "Filter", :class => "pull-right btn btn-default" %>
+	<% end %>
+	<br/>
+	<br/>
+</div>
+
+<table class="table table">
+	<tr>
+		<%- @report_data["expected_values"].each do |value| %>
+			<th>
+				<%= value %>
+			</th>
+		<% end %>	
+	</tr>
+	<% @report_op.each do |op| %>
+		<tr>
+			<%- @report_data["expected_values"].each do |value| %>
+				<td>	
+					<%= op[value] %>
+				</td>
+			<% end %>
+		</tr>
+	<% end %>
+
+</table>
+
+<%=  link_to "Dashboard", home_path %>
+
+
+

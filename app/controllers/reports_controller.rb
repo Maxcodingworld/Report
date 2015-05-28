@@ -6,7 +6,7 @@ class ReportsController < ApplicationController
 	  @all_tables = Admin.tables_model_hash.keys
   end
 
-  def create_join
+  def create
   	@reportjoinobj = Report.new(params[:report])
   	if @reportjoinobj.save!
 				flash[:notice] = "Report successfully saved"
@@ -17,44 +17,56 @@ class ReportsController < ApplicationController
   end
 
   def operation
-  	@arr = []
-  	@option = []
-  	 a = params
-  	 @arr << Report.find_by_id(a["format"].to_i).maintable.table
-  	 Report.find_by_id(a["format"].to_i).jointables.each do |x|
-  	 			@arr << x.table1
-  	 			@arr << x.table2
-  	 end
-  	 @arr = @arr.uniq
-	  	 @arr.each do |x|
-  	 	 @option << [x,x] 
-		   categories = Admin.all_attributes(x)
-		   categories.each do |cat|
-				 @option << [cat,x+"."+cat]
-		   end
-		end
- 	  @reportjoinobj = Report.new()
- 	  
+  	a = params
+  	@id = a["format"].to_i
+  	array = Admin.operation_tables(@id)
+    @arr = array[0]
+    @option = array[1]
+ 	  @reportoperationobj = Report.find_by_id(a["format"].to_i)
   end
 
-	def create
-		reportobj = Report.new(params[:report])
-			if reportobj.save!
-				flash[:notice] = "Report successfully saved"
-				redirect_to reports_path
-			else
-				redirect_to(new_report_path)
-			end
-	end
+  def update
+    @reportoperationobj= Report.find(params[:id])
+    @reportoperationobj.update_attributes(params[:report])
+    @reportoperationobj.save!  
+    redirect_to finalsubmit_reports_path(@reportoperationobj)
+  end
+
+  def finalsubmit
+  	@id = params["format"].to_i
+  	array = Admin.operation_tables(@id)
+    @arr = array[0]
+    @option = array[1]
+	  @reportoperationobj = Report.find_by_id(@id)
+    
+    @arrofgroup = Admin.arrofgrp(@id)
+  end
+
+   def publish
+    @reportoperationobj= Report.find(params[:id])
+    @reportoperationobj.update_attributes(params[:report])
+    @reportoperationobj.save!  
+    redirect_to home_path
+  end
+	# def create
+	# 	reportobj = Report.new(params[:report])
+	# 		if reportobj.save!
+	# 			flash[:notice] = "Report successfully saved"
+	# 			redirect_to reports_path
+	# 		else
+	# 			redirect_to(new_report_path)
+	# 		end
+	# end
 
 	def index
-    report_id = params[:id]
-    result = Admin.retrive_data(params[:id])
+    # report_id = params[:id]
+    # result = Admin.retrive_data(params[:id])
+    redirect_to home_path
 	end
 
-	# def show
-	# 	# render :json =>Admin.retrive_data(params[:id])
-	# end
+	def show
+		render :json =>Admin.retrive_data(params[:id],params["where"]||{},params["having"]||{})
+	end
 	
 	def association
 	  options = '<option value="">Associated table</option>'

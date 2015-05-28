@@ -1,11 +1,12 @@
 <h2>Report</h2> 
-<%= nested_form_for @report, :url => { :action => "create_join" } do |f| %>
+<%= nested_form_for @report do |f| %>
   <%= f.label :Description %>
   <%= f.text_field :description %>
   <%= f.fields_for :maintable do |mainobj| %>
     <%= mainobj.label :Table %>
     <%= mainobj.select(:table,options_for_select(@all_tables)) %>
   <% end %>
+  
   <h1>Join Condition</h1>
   <%= f.fields_for :jointables do |joinobj| %>
     <%= joinobj.label :table1 %>
@@ -17,5 +18,6 @@
     <%= joinobj.link_to_remove "Remove this Join" %>
   <% end %>
   <p><%= f.link_to_add "Add a Join", :jointables %></p>
-  <%= f.submit "More opration" , :class=>"alltables"%>
+
+  <%= f.submit "Submit"%>
 <% end %>

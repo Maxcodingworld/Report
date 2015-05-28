@@ -1,4 +1,4 @@
-etl_execution EtlReturn < ActiveRecord::Base
+Class EtlReturn < ActiveRecord::Base
 establish_connection "etl_execution"
   self.table_name =  'etl_returns'
 end

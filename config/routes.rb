@@ -2,14 +2,23 @@ Bboard::Application.routes.draw do
 
 
 
-root :to => 'order_reports#choose'
+  get "/home" => "home#index"
+
+  match "show_report"  => "home#show_report"
+
+
+root :to => 'home#index'
+#root :to => 'order_reports#choose'
 
 resources :reports do
   collection do
     get 'association'
     get 'attributes'
     get 'operation' 
+    get 'finalsubmit'
     post 'create_join'
+    put 'publish'
+    put 'update'
   end
 end
     

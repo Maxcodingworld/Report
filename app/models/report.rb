@@ -4,18 +4,18 @@ class Report < ActiveRecord::Base
 
   validate :maintable_table_should_be_present
   validate :having_without_group
-  validate :group_without_select
+  #validate :group_without_select
   validate :select_according_to_group
   validate :validity_of_attributes
   
   
-  has_many :selecttables
-  has_many :wheretables
-  has_many :jointables
-  has_many :havingtables
-  has_many :ordertables
-  has_many :grouptables
-  has_one :maintable
+  has_many :selecttables,:dependent => :destroy
+  has_many :wheretables,:dependent => :destroy
+  has_many :jointables,:dependent => :destroy
+  has_many :havingtables,:dependent => :destroy
+  has_many :ordertables,:dependent => :destroy
+  has_many :grouptables,:dependent => :destroy
+  has_one :maintable,:dependent => :destroy
 
   
   accepts_nested_attributes_for :selecttables, allow_destroy: true
@@ -38,13 +38,13 @@ class Report < ActiveRecord::Base
     end
   end
 
-  def group_without_select
-    if !(self.selecttables.present?)
-      if (self.grouptables.present?)
-        errors.add(:grouptables,"is not nil and selecttables is nil")
-      end 
-    end
-  end
+  # def group_without_select
+  #   if !(self.selecttables.present?)
+  #     if (self.grouptables.present?)
+  #       errors.add(:grouptables,"is not nil and selecttables is nil")
+  #     end 
+  #   end
+  # end
 
   def select_according_to_group
       garr = []

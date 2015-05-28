@@ -1,6 +1,5 @@
+  <%= nested_form_for @reportoperationobj, :url => { :action => "update" , :id => @id } do |f| %>
   <h1>Where Condition</h1>
-  <%= nested_form_for @reportjoinobj, :url => { :action => "create" } do |f| %>
-
   <%= f.fields_for :wheretables do |whereobj| %>
     <%= whereobj.label :table_attribute %>
     <%= whereobj.select(:table_attribute , options_for_select(@option),{},{:class => "wheretableatt"}) %>

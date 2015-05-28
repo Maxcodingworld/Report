@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150526125411) do
+ActiveRecord::Schema.define(:version => 20150527103842) do
 
   create_table "batches", :force => true do |t|
     t.string   "batch_file",   :null => false
@@ -108,14 +108,17 @@ ActiveRecord::Schema.define(:version => 20150526125411) do
   end
 
   create_table "havingtables", :force => true do |t|
-    t.integer  "report_id",         :precision => 38, :scale => 0
+    t.integer  "report_id",           :precision => 38, :scale => 0
     t.string   "table_attribute"
     t.string   "r_operator"
     t.string   "value"
     t.string   "expo_default_flag"
-    t.datetime "created_at",                                       :null => false
-    t.datetime "updated_at",                                       :null => false
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
     t.string   "label"
+    t.string   "which_table"
+    t.string   "which_field"
+    t.string   "which_field_to_show"
   end
 
   create_table "jobs", :force => true do |t|
@@ -177,17 +180,21 @@ ActiveRecord::Schema.define(:version => 20150526125411) do
     t.string   "table_attribute"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
+    t.string   "label"
   end
 
   create_table "wheretables", :force => true do |t|
-    t.integer  "report_id",         :precision => 38, :scale => 0
+    t.integer  "report_id",           :precision => 38, :scale => 0
     t.string   "table_attribute"
     t.string   "r_operator"
     t.string   "value"
     t.string   "expo_default_flag"
-    t.datetime "created_at",                                       :null => false
-    t.datetime "updated_at",                                       :null => false
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
     t.string   "label"
+    t.string   "which_field"
+    t.string   "which_table"
+    t.string   "which_field_to_show"
   end
 
 end
