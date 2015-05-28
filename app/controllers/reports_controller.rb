@@ -1,5 +1,5 @@
 class ReportsController < ApplicationController
-
+layout "user_layout"
 	def new
 	  @report = Report.new
 	  @report.maintable = Maintable.new
