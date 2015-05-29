@@ -3,9 +3,6 @@ class EtlPlan < ActiveRecord::Base
  self.table_name =  'etl_plans'
 end
 
-
-
-
 class EtlInfo < ActiveRecord::Base
   establish_connection "etl_execution"
   self.table_name =  'etl_infos'
