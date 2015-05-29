@@ -1,21 +1,62 @@
 class ReportsController < ApplicationController
-
+layout "user_layout"
 	def new
 	  @report = Report.new
 	  @report.maintable = Maintable.new
 	  @all_tables = Admin.tables_model_hash.keys
-   	end
+  end
 
-
-	def create
-		reportobj = Report.new(params[:report])
-			if reportobj.save!
+  def create
+  	@reportjoinobj = Report.new(params[:report])
+  	if @reportjoinobj.save!
 				flash[:notice] = "Report successfully saved"
-				redirect_to reports_path
+				redirect_to operation_reports_path(@reportjoinobj.id)
 			else
 				redirect_to(new_report_path)
 			end
-	end
+  end
+
+  def operation
+  	a = params
+  	@id = a["format"].to_i
+  	array = Admin.operation_tables(@id)
+    @arr = array[0]
+    @option = array[1]
+ 	  @reportoperationobj = Report.find_by_id(a["format"].to_i)
+  end
+
+  def update
+    @reportoperationobj= Report.find(params[:id])
+    @reportoperationobj.update_attributes(params[:report])
+    @reportoperationobj.save!  
+    redirect_to finalsubmit_reports_path(@reportoperationobj)
+  end
+
+  def finalsubmit
+  	@id = params["format"].to_i
+  	array = Admin.operation_tables(@id)
+    @arr = array[0]
+    @option = array[1]
+	  @reportoperationobj = Report.find_by_id(@id)
+    
+    @arrofgroup = Admin.arrofgrp(@id)
+  end
+
+   def publish
+    @reportoperationobj= Report.find(params[:id])
+    @reportoperationobj.update_attributes(params[:report])
+    @reportoperationobj.save!  
+    redirect_to home_path
+  end
+	# def create
+	# 	reportobj = Report.new(params[:report])
+	# 		if reportobj.save!
+	# 			flash[:notice] = "Report successfully saved"
+	# 			redirect_to reports_path
+	# 		else
+	# 			redirect_to(new_report_path)
+	# 		end
+	# end
 
 	def index
     # report_id = params[:id]
@@ -52,5 +93,9 @@ class ReportsController < ApplicationController
 		   end
 		end
 		render :text => options
+	end
+
+	def moreoperation
+		@optables = params[:optables]
 	end
 end

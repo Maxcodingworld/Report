@@ -6,12 +6,18 @@ Bboard::Application.routes.draw do
 
   match "show_report"  => "home#show_report"
 
-root :to => 'order_reports#choose'
+root :to => 'home#index'
+#root :to => 'order_reports#choose'
 
 resources :reports do
   collection do
     get 'association'
     get 'attributes'
+    get 'operation' 
+    get 'finalsubmit'
+    post 'create_join'
+    put 'publish'
+    put 'update'
   end
 end
     

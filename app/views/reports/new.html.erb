@@ -1,6 +1,6 @@
-<h2>Report</h2>
+<h1>Report</h1> 
 
-<%= nested_form_for @report, :url => { :action => "create" } do |f| %>
+<%= nested_form_for @report do |f| %>
   <%= f.label :Description %>
   <%= f.text_field :description %>
   <%= f.fields_for :maintable do |mainobj| %>
@@ -19,81 +19,6 @@
     <%= joinobj.link_to_remove "Remove this Join" %>
   <% end %>
   <p><%= f.link_to_add "Add a Join", :jointables %></p>
-  <h1>Where Condition</h1>
-  <%= f.fields_for :wheretables do |whereobj| %>
-    <%= whereobj.label :table_attribute %>
-    <%= whereobj.select(:table_attribute , options_for_select(['attributes']),{},{:class => "table_attribute"}) %>
-    <%= whereobj.label :r_operator %>
-    <%= whereobj.select(:r_operator,options_for_select([["operator","operator"],[">",">"],["<","<"],
-      ["!=","!="],["=","="],[">=",">="],["<=","<="]]),{},{:class =>"r_operator"}) %>
-    <%= whereobj.label :expo_default_flag %>
-    <%= whereobj.select(:expo_default_flag,options_for_select([["No_Expose",0],["Expose_with_default_value" ,2],["Expose_without_default_value",1]]))%>  
-    <%= whereobj.label :value %>
-    <%= whereobj.text_field(:value , :value => 0) %>
-    <%= whereobj.link_to_remove "Remove this where condition" %>
-  <% end %>
-
-    <p><%= f.link_to_add "Add a where condition", :wheretables %></p>
-
- <h1>Group By Condition</h1>
-<%= f.fields_for :grouptables do |groupobj| %>
-    <%= groupobj.label :table %>
-    <%= groupobj.select(:table_attribute , options_for_select(['table']),{},{:class => "table"}) %>
-    <%= groupobj.label :table_attribute %>
-    <%= groupobj.select(:table_attribute , options_for_select(['attributes']),{},{:class => "group_table_attribute"}) %>
-    <%= groupobj.link_to_remove "Remove this group condition" %>
-  <% end %>
-
-  
-  <p><%= f.link_to_add "Add a group condition", :grouptables %></p>
-
-  <h1>Having Condition</h1>
-  <%= f.fields_for :havingtables do |havingobj| %>
-      
-    <%= havingobj.label :table_attribute %>
-    <%= havingobj.select(:table_attribute , options_for_select(['attributes']),{},{:class => "having_table_attribute"}) %>
-    <%= havingobj.label :Aggregate_Function %>
-    <%= havingobj.select(:table_attribute , options_for_select(['aggregate_function']),{},{:class => "having_aggregate_function"}) %>
-    <%= havingobj.label :r_operator %>
-    <%= havingobj.select(:r_operator,options_for_select([["operator","operator"],[">",">"],["<","<"],
-      ["!=","!="],["=","="],[">=",">="],["<=","<="]]),{},{:class =>"r_operator"}) %>
-    <%= havingobj.label :expo_default_flag %>  
-    <%= havingobj.select(:expo_default_flag,options_for_select([["No Expose",0],["Expose with default value" ,2],["Expose without default value",1]]))%>  
-    <%= havingobj.label :value %>
-    <%= havingobj.text_field(:value , :value => 0) %>
-    <%= havingobj.link_to_remove "Remove" %>
-  <% end %>
-
-  
-  <p><%= f.link_to_add "Add a having condition", :havingtables %></p>
-  <h1>Select Condition</h1>
-  <%= f.fields_for :selecttables do |selectobj| %>
-      
-    <%= selectobj.label :table_attribute %>
-    <%= selectobj.select(:table_attribute , options_for_select(['attributes']),{},{:class => "select_table_attribute"}) %>
-    <%= selectobj.label :Aggregate_Function ,:class => "agg_function" %>
-    <%= selectobj.select(:table_attribute , options_for_select(['select_aggregate_function']),{},{:class => "select_aggregate_function"}) %>
-    <%= selectobj.link_to_remove "Remove this select condition" %>
-  <% end %>
-
-  
-  <p><%= f.link_to_add "Add a select condition", :selecttables %></p>
-
-  <h1>Order By</h1>
-  <%= f.fields_for :ordertables do |orderobj| %>
-      
-    <%= orderobj.label :table_attribute %>
-    <%= orderobj.select(:table_attribute , options_for_select(['attributes']),{},{:class => "order_table_attribute"}) %>
-    <%= orderobj.label :DESC_ASCE %>
-    <%= orderobj.select(:desc_asce , options_for_select([["DESC_ASCE",""],["Ascending","ASC"],["Descending","DESC"]]),{},{:class => "asc_des"}) %>
-    <%= orderobj.label :expo_default_flag %>  
-    <%= orderobj.select(:expo_default_flag,options_for_select([["No Expose",0],["Expose With Default Value" ,2],["Expose Without Default Value",1]]))%>
-    <%= orderobj.link_to_remove "Remove this order by" %>
-  <% end %>
-
-  
-  <p><%= f.link_to_add "Add a order condition", :ordertables %></p>
-  <%= f.submit "Submit"%>
+  <p><%= f.submit "Submit"%>&nbsp;&nbsp;&nbsp;<%=  link_to "Dashboard", home_path %></p>
 <% end %>
 
-<%=  link_to "Dashboard", home_path %>

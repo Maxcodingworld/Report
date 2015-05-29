@@ -4,7 +4,7 @@ class Report < ActiveRecord::Base
 
   validate :maintable_table_should_be_present
   validate :having_without_group
-  validate :group_without_select
+  #validate :group_without_select
   validate :select_according_to_group
   validate :validity_of_attributes
   
@@ -38,13 +38,13 @@ class Report < ActiveRecord::Base
     end
   end
 
-  def group_without_select
-    if !(self.selecttables.present?)
-      if (self.grouptables.present?)
-        errors.add(:grouptables,"is not nil and selecttables is nil")
-      end 
-    end
-  end
+  # def group_without_select
+  #   if !(self.selecttables.present?)
+  #     if (self.grouptables.present?)
+  #       errors.add(:grouptables,"is not nil and selecttables is nil")
+  #     end 
+  #   end
+  # end
 
   def select_according_to_group
       garr = []
