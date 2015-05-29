@@ -6,11 +6,11 @@ class HomeController < ApplicationController
 
   def show_report
   	@report_data = Admin.information(params[:id])
-  	p params[:id]
-  	p params["where"]||{}
-  	p params["having"]||{}
-  	@report_op = Admin.retrive_data(params[:id],params["where"]||{},params["having"]||{})
-    p @report_op
+  	data,total = Admin.retrive_data(params[:id],params["where"]||{},params["having"]||{},params[:page])
+    @report_op = WillPaginate::Collection.create(params[:page] || 1, 10,total) do |pager|
+      pager.replace(data)
+    end
+    # p @report_op
   end
 end
 

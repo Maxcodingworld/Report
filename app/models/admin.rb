@@ -88,7 +88,8 @@ class Admin < ActiveRecord::Base
       attrr1 = "id" if asso2 == "belongs_to"
       attrr2 = "id" if attrr2 == nil
       attrr1 = "id" if attrr2 == nil
-      return flag == 1 ? " #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}" : ", #{table1.pluralize} #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}"
+      #return flag == 1 ? " #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}" : ", #{table1.pluralize} #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}"
+      return " #{whichjoin} #{table2.pluralize} on #{table1.pluralize}.#{attrr1} = #{table2.pluralize}.#{attrr2}"
     end
 
     def multiple_join(table1,joinstr,order)
@@ -117,7 +118,7 @@ class Admin < ActiveRecord::Base
   #Feature 5
     def pagination(stage4,pageno = 1 ,perpage =10)
       stage5=Class.new
-      stage5=stage4.paginate(:per_page => perpage , :page => pageno) 
+      stage5 = stage4.paginate(:per_page => perpage , :page => pageno)
     end  
 
   # Collect full joinstring into one
@@ -153,7 +154,7 @@ class Admin < ActiveRecord::Base
       exposed = {} if exposed == nil
       reportobj.wheretables.each do |x|
          next if x.expo_default_flag == '1' and exposed[x.table_attribute] == nil
-         wherestr[0] << x.table_attribute + " " + x.r_operator + " " + "?" + "and"
+         wherestr[0] << " " + x.table_attribute + " " + x.r_operator + " " + "? " + "and"
          wherestr << x.value if x.expo_default_flag == '0'
          wherestr << exposed[x.table_attribute] if x.expo_default_flag == '1' 
          wherestr << x.value if x.expo_default_flag == '2' and exposed[x.table_attribute] == nil 
@@ -221,13 +222,16 @@ class Admin < ActiveRecord::Base
     end
 
   #calling retrive_data
-    def retrive_data(id,wherehash,havinghash)
+    def retrive_data(id,wherehash,havinghash,page=1)
       reportobj=Report.find(id.to_i)
       return "Error report doesnot get saved" if id == nil
       joined_table = join_order_operation(reportobj)                       # Joining of tables and ordering of table
       after_where  = where_operation(joined_table,reportobj,wherehash)               # appling filters on table
       after_group_having = group_having_operations(after_where,reportobj,havinghash)  # appling group by and having 
-      after_select = select_operation(after_group_having,reportobj)        # appling select operation
+      after_paginate = pagination(after_group_having,page)
+      total_entries = after_group_having.pluck_details("count(1) as count").first["count"]
+      after_select = select_operation(after_paginate,reportobj)        # appling select operation
+      [after_select,total_entries]
     end
   
 
@@ -236,7 +240,7 @@ class Admin < ActiveRecord::Base
       if reportobj.selecttables.present?
         reportobj.selecttables.each do |x|
           info << x.table_attribute.split(".").first + "-" + x.table_attribute.split(".").last unless x.label.present?
-          info << x.label if x.label.present?
+          info << x.label.downcase if x.label.present?
         end  
       else
         table = reportobj.maintable.table

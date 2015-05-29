@@ -42,7 +42,7 @@
 	<tr>
 		<%- @report_data["expected_values"].each do |value| %>
 			<th>
-				<%= value %>
+				<%= value.upcase %>
 			</th>
 		<% end %>	
 	</tr>
@@ -57,7 +57,7 @@
 	<% end %>
 
 </table>
-
+<%= will_paginate(@report_op) %>
 <%=  link_to "Dashboard", home_path %>
 
 
