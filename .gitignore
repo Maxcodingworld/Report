@@ -3,4 +3,9 @@
 /log/*.log
 /tmp
 /.rvmrc
+<<<<<<< HEAD
 /config/database.yml
+
+=======
+/config/database.yml
+>>>>>>> c5133fe32bd554430bc39e86bba26198b11ee082

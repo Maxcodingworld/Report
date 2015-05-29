@@ -10,6 +10,24 @@
     <%= whereobj.select(:expo_default_flag,options_for_select([["No_Expose",0],["Expose_with_default_value" ,2],["Expose_without_default_value",1]]))%>  
     <%= whereobj.label :value %>
     <%= whereobj.text_field(:value , :value => 0) %>
+
+    <p>
+    <%= whereobj.label :which_table %>
+    <%= whereobj.select(:which_table , options_for_select([""] + @all_tables),{},{:class => "whichtable"}) %>
+   
+    <%= whereobj.label :which_field %>
+    <%= whereobj.select(:which_field , options_for_select(["attributes"]),{},{:class => "whichfield"}) %>
+
+    <%= whereobj.label :which_field_to_show %>
+    <%= whereobj.select(:which_field_to_show , options_for_select(["attributes"]),{},{:class => "whichfieldtoshow"}) %>  
+     
+    <%= whereobj.label :label %>
+    <%= whereobj.text_field(:label) %> 
+
+    </p>
+
+
+
     <%= whereobj.link_to_remove "Remove this where condition" %>
   <% end %>
 
@@ -17,12 +35,11 @@
   <p><%= f.link_to_add "Add a where condition", :wheretables %></p>
 
  <h1>Group By Condition</h1>
-<%= f.fields_for :grouptables do |groupobj| %>
-    <%= @arr%>
-    <%= groupobj.label :table %>
+  <%= f.fields_for :grouptables do |groupobj| %>
+    <p><%= groupobj.label :table %>
     <%= groupobj.select(:table_attribute , options_for_select(@arr),{},{:class => "table"}) %>
     <%= groupobj.label :table_attribute %>
-    <%= groupobj.select(:table_attribute , options_for_select(['attributes']),{},{:class => "group_table_attribute"}) %>
+    <%= groupobj.select(:table_attribute , options_for_select(['attributes']),{},{:class => "group_table_attribute"}) %></p>
     <%= groupobj.link_to_remove "Remove this group condition" %>
   <% end %>
 
@@ -41,8 +58,23 @@
       ["!=","!="],["=","="],[">=",">="],["<=","<="]]),{},{:class =>"r_operator"}) %>
     <%= havingobj.label :expo_default_flag %>  
     <%= havingobj.select(:expo_default_flag,options_for_select([["No_Expose",0],["Expose_with_default_value" ,2],["Expose_without_default_value",1]]))%>  
+    <p>
     <%= havingobj.label :value %>
     <%= havingobj.text_field(:value , :value => 0) %>
+   
+    
+    <%= havingobj.label :which_table %>
+    <%= havingobj.select(:which_table , options_for_select([""] + @all_tables),{},{:class => "havingwhichtable"}) %>
+   
+    <%= havingobj.label :which_field %>
+    <%= havingobj.select(:which_field , options_for_select(["attributes"]),{},{:class => "havingwhichfield"}) %>
+
+    <%= havingobj.label :which_field_to_show %>
+    <%= havingobj.select(:which_field_to_show , options_for_select(["attributes"]),{},{:class => "havingwhichfieldtoshow"}) %> 
+    <%= havingobj.label :label %>
+    <%= havingobj.text_field(:label) %>  
+    </p>
+
     <%= havingobj.link_to_remove "Remove" %>
   <% end %>
 

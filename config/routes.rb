@@ -6,7 +6,6 @@ Bboard::Application.routes.draw do
 
   match "show_report"  => "home#show_report"
 
-
 root :to => 'home#index'
 #root :to => 'order_reports#choose'
 

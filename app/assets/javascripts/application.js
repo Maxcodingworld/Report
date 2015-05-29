@@ -62,6 +62,21 @@ $(document).on('nested:fieldAdded:jointables', function(click){
 // $(document).on('nested:fieldAdded:wheretables', function(click){
 // });
 
+$(document).on('nested:fieldAdded:wheretables', function(click){
+	$('.whichtable').change(function(){
+		$.get('/reports/attributes?table_name='+$(this).val(),function(data){
+		    	$('.whichfield').last().html(data);
+		    	$('.whichfieldtoshow').last().html(data);
+		});	
+	});	
+});
+
+
+
+
+
+
+
 
 $(document).on('nested:fieldAdded:grouptables', function(click){
 	$('.table').change(function(){
@@ -87,6 +102,18 @@ $(document).on('nested:fieldAdded:havingtables', function(click){
 			    }));
       }
 		});
+
+    $('.havingwhichtable').change(function(){
+		$.get('/reports/attributes?table_name='+$(this).val(),function(data){
+		    	$('.havingwhichfield').last().html(data);
+		    	$('.havingwhichfieldtoshow').last().html(data);
+		});	
+	});
+
+
+
+
+
 });
 
 
@@ -126,6 +153,3 @@ $(document).on('nested:fieldAdded:selecttables', function(click){
 });
 
 
-
-// $(document).on('nested:fieldAdded:ordertables', function(click){
-// });

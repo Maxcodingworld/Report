@@ -1,9 +1,9 @@
 class Admin < ActiveRecord::Base
   class << self
     def tables_model_hash
-      Rails.application.eager_load!	 
+      Rails.application.eager_load!  
       Hash[ActiveRecord::Base.descendants.collect{|c| [c.table_name, c.name] unless c.accessible_attributes.empty?}].except("reports","jointables","selecttables","wheretables","ordertables","grouptables","havingtables","maintables")
-  	end
+    end
 
 
     def arrofgrp(id)
@@ -26,7 +26,7 @@ class Admin < ActiveRecord::Base
       end
       arr = arr.uniq
       arr.each do |x|
-          option << [x,x]
+          option << [x,""]
           all_attributes(x).each do |cat|
             option << [cat,x+"."+cat]
           end
@@ -36,9 +36,9 @@ class Admin < ActiveRecord::Base
     end
 
     def all_attributes(table)
-    	Rails.application.eager_load!        # Loads modals
+      Rails.application.eager_load!        # Loads modals
       table.classify.constantize.column_names              # attributes of the model
-  	end
+    end
 
     def all_associations(table)
       hash = Hash.new
@@ -153,12 +153,12 @@ class Admin < ActiveRecord::Base
       wherestr[0]=""
       exposed = {} if exposed == nil
       reportobj.wheretables.each do |x|
-         next if x.expo_default_flag == '1' and exposed[x.table_attribute] == nil
+         next if x.expo_default_flag == '1' and exposed[x.table_attribute].blank?
          wherestr[0] << " " + x.table_attribute + " " + x.r_operator + " " + "? " + "and"
          wherestr << x.value if x.expo_default_flag == '0'
          wherestr << exposed[x.table_attribute] if x.expo_default_flag == '1' 
-         wherestr << x.value if x.expo_default_flag == '2' and exposed[x.table_attribute] == nil 
-         wherestr << exposed[x.table_attribute] if x.expo_default_flag == '2' and exposed[x.table_attribute] != nil 
+         wherestr << x.value if x.expo_default_flag == '2' and exposed[x.table_attribute].blank?
+         wherestr << exposed[x.table_attribute] if x.expo_default_flag == '2' and exposed[x.table_attribute].blank? 
       end
       wherestr[0] = wherestr[0][0..wherestr[0].length-4]
       return '' if wherestr[0].empty?
@@ -208,7 +208,7 @@ class Admin < ActiveRecord::Base
       selectstr = ""
       reportobj.selecttables.each do |x| 
         tempstr =  '"' + x.table_attribute.split(".").first + "-" + x.table_attribute.split(".").last + '"'
-        tempstr = x.label if x.label.present? 
+        tempstr = '"' + x.label + '"' if x.label.present? 
         selectstr << x.table_attribute + " as " + tempstr + ","
       end
       selectstr = selectstr[0..selectstr.length-2] if selectstr.length > 2
@@ -229,7 +229,7 @@ class Admin < ActiveRecord::Base
       after_where  = where_operation(joined_table,reportobj,wherehash)               # appling filters on table
       after_group_having = group_having_operations(after_where,reportobj,havinghash)  # appling group by and having 
       after_paginate = pagination(after_group_having,page)
-      total_entries = after_group_having.pluck_details("count(1) as count").first["count"]
+      total_entries = after_group_having.pluck_details("count(1) as count").first["count"] rescue 10
       after_select = select_operation(after_paginate,reportobj)        # appling select operation
       [after_select,total_entries]
     end
@@ -240,7 +240,7 @@ class Admin < ActiveRecord::Base
       if reportobj.selecttables.present?
         reportobj.selecttables.each do |x|
           info << x.table_attribute.split(".").first + "-" + x.table_attribute.split(".").last unless x.label.present?
-          info << x.label.downcase if x.label.present?
+          info << x.label if x.label.present?
         end  
       else
         table = reportobj.maintable.table
@@ -258,10 +258,10 @@ class Admin < ActiveRecord::Base
         temp["attribute"]= x.table_attribute.split(".").last.split(')').first
         temp["default"] = x.value if x.expo_default_flag == '2'
         temp["operator"] = x.r_operator
-        temp["label"] = nil
-        temp["which_table"] = nil
-        temp["which_field"] = nil
-        temp["which_field_to_show"] = nil
+        temp["label"] = x.label
+        temp["which_table"] = x.which_table
+        temp["which_field"] = x.which_field.split('.').last rescue ''
+        temp["which_field_to_show"] = x.which_field_to_show.split('.').last rescue ''
       end
       temp
     end

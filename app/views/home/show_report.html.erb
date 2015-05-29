@@ -2,7 +2,8 @@
 <div class="row-fluid">
 	<%= form_tag "/show_report", :method => "get"  do %>
 		<%= hidden_field_tag :id,params[:id] %>
-		<%- @report_data["exposed_where_values"]||[].each do |where_cdn| %>
+		<% where=  @report_data["exposed_where_values"]||[] %>
+		<% where.each do |where_cdn| %>
 			<b><%= where_cdn["label"] %></b>
 			<% 
 				temp = "#{where_cdn['table']}.#{where_cdn['attribute']}" 
@@ -16,8 +17,8 @@
 			<% end %>
 		<% end %>
 		<br/>
-
-		<%- @report_data["exposed_having_values"] || [].each do |having| %>
+		<% having_arr = @report_data["exposed_having_values"] || [] %>
+		<%- having_arr.each do |having| %>
 			<b><%= having["label"] %></b>
 			<% 
 				temp = "#{having['table']}.#{having['attribute']}" 
@@ -42,7 +43,7 @@
 	<tr>
 		<%- @report_data["expected_values"].each do |value| %>
 			<th>
-				<%= value.upcase %>
+				<%= value %>
 			</th>
 		<% end %>	
 	</tr>
