@@ -1,0 +1,32 @@
+   <%= nested_form_for @reportoperationobj, :url => { :action => "publish" , :id => @id } do |f| %>
+  <h1>Select Attribute</h1>
+  <input type="hidden" id="arrofgrp" value= "<%=@arrofgroup%>" />
+
+  <%= f.fields_for :selecttables do |selectobj| %>
+    <%= selectobj.label :table_attribute %>
+    <%= selectobj.select(:table_attribute , options_for_select(@option),{},{:class => "select_table_attribute"}) %>
+    <%= selectobj.label :Aggregate_Function , :class=>"agg_function"%>
+    <%= selectobj.select(:table_attribute , options_for_select(['select_aggregate_function']),{},{:class => "select_aggregate_function"}) %>
+    <%= selectobj.label :as %>
+    <%= selectobj.text_field(:label) %>
+    <%= selectobj.link_to_remove "Remove this select condition" %>
+  <% end %>
+
+  
+
+  <p><%= f.link_to_add "Add a select condition", :selecttables %></p>
+
+  <h1>Order By</h1>
+  <%= f.fields_for :ordertables do |orderobj| %>
+      
+    <%= orderobj.label :table_attribute %>
+    <%= orderobj.select(:table_attribute , options_for_select(@option),{},{:class => "order_table_attribute"}) %>
+    <%= orderobj.label :DESC_ASCE %>
+    <%= orderobj.select(:desc_asce , options_for_select([["DESC_ASCE",""],["Ascending","ASC"],["Descending","DESC"]]),{},{:class => "asc_des"}) %>
+    <%= orderobj.link_to_remove "Remove this order by" %>
+  <% end %>
+
+  
+  <p><%= f.link_to_add "Add a order condition", :ordertables %></p>
+  <%= f.submit "Submit"%>
+<% end %>

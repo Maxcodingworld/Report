@@ -1,0 +1,30 @@
+<h1>Available Reports</h1>
+
+<table class="table table">
+	<tr>
+		<th>
+			Name
+		</th>
+		<th>
+			View
+		</th>
+	</tr>
+
+	<%- @reports.each do |rep| %>
+		<tr>
+			<td>
+				<%= rep.description %>
+			</td>
+			<td>
+				<%=  link_to "View", "/show_report?id=#{rep.id}" %>
+			</td>
+		</tr>
+	<% end %>
+</table>
+
+<% if @reports.empty? %>
+	No Reports Found
+<% end %>
+
+<%=  link_to "Add a new report", new_report_path %>
+

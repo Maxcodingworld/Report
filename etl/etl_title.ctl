@@ -1,11 +1,11 @@
 class EtlTitle < ActiveRecord::Base
-  establish_connection "production"
+  establish_connection "etl_execution"
   self.table_name =  'etl_titles'
 end
 
 
 class EtlInfo < ActiveRecord::Base
-  establish_connection "production"
+  establish_connection "etl_execution"
   self.table_name =  'etl_infos'
 end
 
@@ -18,7 +18,7 @@ end
  source :input,
   {
   :type => :database,
-  :target => :webstore_production,
+  :target => :webstore_development,
   :query => "select * from (select id ,title,author_id,category_id from titles order by id) where id > #{a}"
 
   },
@@ -43,7 +43,7 @@ end
 
 destination :out, {
   :type => :database,
-  :target => :production,
+  :target => :etl_execution,
   :table => "etl_titles"
 },
 {

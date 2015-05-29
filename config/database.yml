@@ -3,34 +3,67 @@
 #
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
-development:
+# development:
+#   adapter: sqlite3
+#   database: db/development.sqlite3
+#   pool: 5
+#   timeout: 5000
+
+test:
   adapter: oracle_enhanced
-  database: staging
-  username: bboard
-  password: bboard
+  database: XE
+  username: test_bboard
+  password: test_bboard
+
 
 production:
   adapter: oracle_enhanced
-  database: staging
-  username: bboard
-  password: bboard
+  database: XE
+  username: bboard_staging
+  password: bboard_staging
 
-memp_production:
+etl_execution:
   adapter: oracle_enhanced
   database: staging
   username: memp
   password: memp
 
-
-opac_production:
+memp_production:
   adapter: oracle_enhanced
-  database: staging 
+  database: XE
+  username: bboard_staging
+  password: bboard_staging
+
+memp_development:
+  adapter: oracle_enhanced
+  database: XE
+  username: memp
+  password: memp
+
+
+opac_development:
+  adapter: oracle_enhanced
+  database: XE 
   username: opac
   password: opac
 
 
-webstore_production:
+webstore_development:
   adapter: oracle_enhanced
-  database: staging
+  database: XE
   username: webstore
   password: webstore
+
+development_sql_lite:
+  adapter: sqlite3
+  database: db/development.sqlite3
+  pool: 5
+  timeout: 5000
+
+development:
+  adapter: oracle_enhanced
+  database: XE
+  username: bboard
+  password: bboard
+
+

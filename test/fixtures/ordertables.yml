@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  report_id: 1
+  table.attribute: MyString
+  expo_default_flag: MyString
+
+two:
+  report_id: 1
+  table.attribute: MyString
+  expo_default_flag: MyString

@@ -1,3 +1,9 @@
-run 'prepare_db.ctl'
 run 'bb_table.ctl'
-
+run 'etl_title.ctl'
+run 'etl_return.ctl'
+run 'etl_plan.ctl'
+run 'etl_member_plan.ctl'
+run 'etl_branch.ctl'
+run 'etl_category.ctl'
+run 'etl_author.ctl'
+run 'etl_circulation.ctl'

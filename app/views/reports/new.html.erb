@@ -1,0 +1,24 @@
+<h1>Report</h1> 
+
+<%= nested_form_for @report do |f| %>
+  <%= f.label :Description %>
+  <%= f.text_field :description %>
+  <%= f.fields_for :maintable do |mainobj| %>
+    <%= mainobj.label :Table %>
+    <%= mainobj.select(:table,options_for_select(@all_tables)) %>
+  <% end %>
+  
+  <h1>Join Condition</h1>
+  <%= f.fields_for :jointables do |joinobj| %>
+    <%= joinobj.label :table1 %>
+    <%= joinobj.select(:table1 , options_for_select(['table']),{},{:class => "table1"}) %>
+    <%= joinobj.label :table2 %>
+    <%= joinobj.select(:table2,options_for_select(['associated tables']),{},{:class =>"table2"}) %>
+    <%= joinobj.label :table2 %>
+    <%= joinobj.select(:whichjoin,options_for_select([["Inner Join","INNER JOIN"],["Left Outer Join","LEFT OUTER JOIN"],["Right Outer Join","RIGHT OUTER JOIN"]])) %>
+    <%= joinobj.link_to_remove "Remove this Join" %>
+  <% end %>
+  <p><%= f.link_to_add "Add a Join", :jointables %></p>
+  <p><%= f.submit "Submit"%>&nbsp;&nbsp;&nbsp;<%=  link_to "Dashboard", home_path %></p>
+<% end %>
+
