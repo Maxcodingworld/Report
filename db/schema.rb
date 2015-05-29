@@ -88,12 +88,6 @@ ActiveRecord::Schema.define(:version => 20150527103842) do
     t.string "name"
   end
 
-  create_table "etl_member_profiles", :force => true do |t|
-    t.string "email"
-    t.string "name"
-    t.string "category"
-  end
-
   create_table "etl_plans", :force => true do |t|
     t.string "name"
   end
@@ -134,6 +128,7 @@ ActiveRecord::Schema.define(:version => 20150527103842) do
     t.string   "which_table"
     t.string   "which_field"
     t.string   "which_field_to_show"
+    t.string   "label"
   end
 
   create_table "jobs", :force => true do |t|
@@ -233,6 +228,7 @@ ActiveRecord::Schema.define(:version => 20150527103842) do
     t.string   "which_field"
     t.string   "which_table"
     t.string   "which_field_to_show"
+    t.string   "label"
   end
 
 end

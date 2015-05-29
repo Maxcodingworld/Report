@@ -22,7 +22,8 @@ layout "user_layout"
   	array = Admin.operation_tables(@id)
     @arr = array[0]
     @option = array[1]
- 	  @reportoperationobj = Report.find_by_id(a["format"].to_i)
+ 	@all_tables = Admin.tables_model_hash.keys
+ 	@reportoperationobj = Report.find_by_id(a["format"].to_i)
   end
 
   def update

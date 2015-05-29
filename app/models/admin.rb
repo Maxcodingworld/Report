@@ -27,7 +27,7 @@ class Admin < ActiveRecord::Base
       end
       arr = arr.uniq
       arr.each do |x|
-          option << [x,x]
+          option << [x,""]
           all_attributes(x).each do |cat|
             option << [cat,x+"."+cat]
           end
@@ -208,7 +208,7 @@ class Admin < ActiveRecord::Base
       selectstr = ""
       reportobj.selecttables.each do |x| 
         tempstr =  '"' + x.table_attribute.split(".").first + "-" + x.table_attribute.split(".").last + '"'
-        tempstr = x.label if x.label.present? 
+        tempstr = '"' + x.label + '"' if x.label.present? 
         selectstr << x.table_attribute + " as " + tempstr + ","
       end
       selectstr = selectstr[0..selectstr.length-2] if selectstr.length > 2
@@ -229,7 +229,7 @@ class Admin < ActiveRecord::Base
       after_where  = where_operation(joined_table,reportobj,wherehash)               # appling filters on table
       after_group_having = group_having_operations(after_where,reportobj,havinghash)  # appling group by and having 
       after_paginate = pagination(after_group_having,page)
-      total_entries = after_group_having.pluck_details("count(1) as count").first["count"]
+      total_entries = after_group_having.pluck_details("count(1) as count").first["count"] rescue 10
       after_select = select_operation(after_paginate,reportobj)        # appling select operation
       [after_select,total_entries]
     end
@@ -258,10 +258,10 @@ class Admin < ActiveRecord::Base
         temp["attribute"]= x.table_attribute.split(".").last.split(')').first
         temp["default"] = x.value if x.expo_default_flag == '2'
         temp["operator"] = x.r_operator
-        temp["label"] = nil
-        temp["which_table"] = nil
-        temp["which_field"] = nil
-        temp["which_field_to_show"] = nil
+        temp["label"] = x.label
+        temp["which_table"] = x.which_table
+        temp["which_field"] = x.which_field
+        temp["which_field_to_show"] = x.which_field_to_show
       end
       temp
     end
