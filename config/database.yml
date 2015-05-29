@@ -24,6 +24,12 @@ production:
 
 etl_execution:
   adapter: oracle_enhanced
+  database: staging
+  username: memp
+  password: memp
+
+memp_production:
+  adapter: oracle_enhanced
   database: XE
   username: bboard_staging
   password: bboard_staging
@@ -57,7 +63,7 @@ development_sql_lite:
 development:
   adapter: oracle_enhanced
   database: XE
-  username: memp_etl
-  password: memp_etl
+  username: bboard
+  password: bboard
 
 
