@@ -18,6 +18,7 @@
 
  <h1>Group By Condition</h1>
 <%= f.fields_for :grouptables do |groupobj| %>
+    <%= @arr%>
     <%= groupobj.label :table %>
     <%= groupobj.select(:table_attribute , options_for_select(@arr),{},{:class => "table"}) %>
     <%= groupobj.label :table_attribute %>

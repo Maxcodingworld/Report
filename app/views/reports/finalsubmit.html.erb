@@ -1,5 +1,5 @@
    <%= nested_form_for @reportoperationobj, :url => { :action => "publish" , :id => @id } do |f| %>
-  <h1>Select Condition</h1>
+  <h1>Select Attribute</h1>
   <input type="hidden" id="arrofgrp" value= "<%=@arrofgroup%>" />
 
   <%= f.fields_for :selecttables do |selectobj| %>

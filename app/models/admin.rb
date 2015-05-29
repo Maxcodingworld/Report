@@ -18,8 +18,7 @@ class Admin < ActiveRecord::Base
     def operation_tables(id)
       arr = []
       option = []
-      p Report.find(id.to_i).maintable.table
-      arr[0] = Report.find(id.to_i).maintable.table
+      arr << Report.find(id.to_i).maintable.table
 
       Report.find(id.to_i).jointables.each do |x|
         arr << x.table1
@@ -32,6 +31,7 @@ class Admin < ActiveRecord::Base
             option << [cat,x+"."+cat]
           end
       end
+      arr << arr.first
       [arr,option]
     end
 
