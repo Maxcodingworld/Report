@@ -126,6 +126,3 @@ $(document).on('nested:fieldAdded:selecttables', function(click){
 });
 
 
-
-// $(document).on('nested:fieldAdded:ordertables', function(click){
-// });
