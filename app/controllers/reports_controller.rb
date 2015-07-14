@@ -66,6 +66,8 @@ layout "user_layout"
 	end
 
 	def show
+		params["where"]
+		params["having"]
 		render :json =>Admin.retrive_data(params[:id],params["where"]||{},params["having"]||{})
 	end
 	

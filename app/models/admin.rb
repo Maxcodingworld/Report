@@ -1,10 +1,33 @@
 class Admin < ActiveRecord::Base
   class << self
+    def exposed_hash(reportobj,hash)
+      where = {}
+      having = {}
+      reportobj.wheretables.each do |x|
+        if x.r_operator == 'IN'
+          exposed_hash(Report.find(x.in_report.split(',').first.to_i),hash)
+        else   
+          where[x.table_attribute] = [x.r_operator,x.value] if x.expo_default_flag == '2'
+          where[x.table_attribute] = [x.r_operator,0] if x.expo_default_flag == '1'
+        end
+      end
+      
+      reportobj.havingtables.each do |x|
+        if x.r_operator == 'IN' 
+          exposed_hash(Report.find(x.in_report.split(',').first.to_i),hash)
+        else   
+          having[x.table_attribute] = [x.r_operator,x.value] if x.expo_default_flag == '2'
+          having[x.table_attribute] = [x.r_operator,0] if x.expo_default_flag == '1'
+        end
+      end 
+      hash[reportobj.id] = [where,having]
+      hash
+    end
+
     def tables_model_hash
       Rails.application.eager_load!  
       Hash[ActiveRecord::Base.descendants.collect{|c| [c.table_name, c.name] unless c.accessible_attributes.empty?}].except("reports","jointables","selecttables","wheretables","ordertables","grouptables","havingtables","maintables")
     end
-
 
     def arrofgrp(id)
       arr = []
@@ -148,17 +171,17 @@ class Admin < ActiveRecord::Base
     end
 
   # Collect full wherestring into one
-    def wherestrcollect(reportobj,exposed)
-      wherestr = []
-      wherestr[0]=""
+    def wherestrcollect(reportobj,exposed)                # 0 => Not Exposed
+      wherestr = []                                       # 1 => Exposed without Default value
+      wherestr[0]=""                                      # 2 => Exposed with Default value
       exposed = {} if exposed == nil
       reportobj.wheretables.each do |x|
          next if x.expo_default_flag == '1' and exposed[x.table_attribute].blank?
-         wherestr[0] << " " + x.table_attribute + " " + x.r_operator + " " + "? " + "and"
+         wherestr[0] << " " + x.table_attribute + " " + x.r_operator + " " + "(?) " + "and"
          wherestr << x.value if x.expo_default_flag == '0'
          wherestr << exposed[x.table_attribute] if x.expo_default_flag == '1' 
          wherestr << x.value if x.expo_default_flag == '2' and exposed[x.table_attribute].blank?
-         wherestr << exposed[x.table_attribute] if x.expo_default_flag == '2' and exposed[x.table_attribute].blank? 
+         wherestr << exposed[x.table_attribute] if x.expo_default_flag == '2' and exposed[x.table_attribute].present? 
       end
       wherestr[0] = wherestr[0][0..wherestr[0].length-4]
       return '' if wherestr[0].empty?
